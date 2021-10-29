@@ -99,7 +99,7 @@ Have split the objects into 5 modules:
 
 ## Checklist
 ### Live Project
--[ ] Includes links to your portfolio website, Github, and LinkedIn.
+- [ ] Includes links to your portfolio website, Github, and LinkedIn.
 
 -[ ] Landing page/modal with obvious, clear instructions.
 
