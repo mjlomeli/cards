@@ -75,7 +75,7 @@ Have split the objects into 5 modules:
 #### Day 1: _Wireframe_ 
 * _Design a wireframe concept and upload design details._
 
-<img src="./readme_files/wireframe.png" alt="wireframe">
+<img src="./docs/wireframe.png" alt="wireframe">
 
 
 #### Day 2: _Skeleton Setup_
