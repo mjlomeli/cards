@@ -19,11 +19,11 @@ Released under [MIT](/LICENSE) by [@Mauricio](https://github.com/mjlomeli).
 
 **Email** : [Mauricio](mailto:mauricio.jr.lomeli@gmail.com)
 
-##Purpose
+## Purpose
 This is a recreation of the Solitaire card game entirely out of Javascript and HTML5.
 Its primary purpose is as a proof of concept.
 
-###In Cards, users will be able to:
+### In Cards, users will be able to:
 
 * Drag and drop 
 * Card selection
@@ -31,7 +31,7 @@ Its primary purpose is as a proof of concept.
 * Visualize score
 * More TBA after completion of above
 
-###In addition, this project will include:
+### In addition, this project will include:
 
 * A comprehensive README
 * Instructional guide
@@ -43,7 +43,7 @@ Its primary purpose is as a proof of concept.
 * Looking into animation renderers (sfx)
 
 
-##Structure
+## Structure
 
 Have split the objects into 5 modules:
 
@@ -70,7 +70,7 @@ Have split the objects into 5 modules:
     - Score or additional data visualizations (e.g. score bar).
 
 
-##Goals
+## Goals
 
 Day 1: **Wireframe**: _Design a wireframe concept and upload design details._
 
