@@ -72,23 +72,54 @@ Have split the objects into 5 modules:
 
 ## Goals
 
-Day 1: **Wireframe**: _Design a wireframe concept and upload design details._
+#### Day 1: _Wireframe_ 
+* _Design a wireframe concept and upload design details._
 
 <img src="./readme_files/wireframe.png" alt="wireframe">
 
 
-Day 2: _Skeleton Setup_
+#### Day 2: _Skeleton Setup_
 
 - Create the skeleton of each structure
 - Test on command line
 
-Day 3: _Canvas Skeleton_
+#### Day 3: _Canvas Skeleton_
 - Create the canvas objects
 
-Day 4: _Apply Objects_
+#### Day 4: _Apply Objects_
 - Bind the canvas objects to events
 
-Day 5: _Improve Project_
+#### Day 5: _Improve Project_
 - Apply this template onto other card games
 
-Day 6-7: _Debug_
+#### Day 6-7: _Debug_
+
+
+
+
+## Checklist
+### Live Project
+-[ ] Includes links to your portfolio website, Github, and LinkedIn.
+
+-[ ] Landing page/modal with obvious, clear instructions.
+
+-[ ] Interactivity of some kind.
+
+-[ ] Well styled, clean frontend.
+
+-[ ] If it has music, the option to mute or stop it.
+
+### Production README
+-[ ] Link to live version.
+
+-[ ] Instructions on how to play/interact with the project.
+
+-[ ] List of technologies / libraries / APIs used.
+
+-[ ] Technical implementation details with (good-looking) code snippets.
+
+-[ ] To-dos / future features.
+
+-[ ] No .DS_Store files / debuggers / console.logs.
+
+-[ ] Organized file structure, with /src and /dist directories.
