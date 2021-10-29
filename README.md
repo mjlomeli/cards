@@ -8,10 +8,7 @@
 
 </div>
 
-
-
 # Cards
-
 
 ## License
 
@@ -20,12 +17,13 @@ Released under [MIT](/LICENSE) by [@Mauricio](https://github.com/mjlomeli).
 **Email** : [Mauricio](mailto:mauricio.jr.lomeli@gmail.com)
 
 ## Purpose
-This is a recreation of the Solitaire card game entirely out of Javascript and HTML5.
-Its primary purpose is as a proof of concept.
+
+This is a recreation of the Solitaire card game entirely out of Javascript and HTML5. Its primary purpose is as a proof
+of concept.
 
 ### In Cards, users will be able to:
 
-* Drag and drop 
+* Drag and drop
 * Card selection
 * Reset game
 * Visualize score
@@ -37,11 +35,10 @@ Its primary purpose is as a proof of concept.
 * Instructional guide
 * API referencing image and card data
 
-
 ### Technologies, Libraries, APIs
+
 * Looking into sound libraries
 * Looking into animation renderers (sfx)
-
 
 ## Structure
 
@@ -69,10 +66,10 @@ Have split the objects into 5 modules:
     - Display a set of instructions for the player to learn how to play.
     - Score or additional data visualizations (e.g. score bar).
 
-
 ## Goals
 
-#### Day 1: _Wireframe & UML_ 
+#### Day 1: _Wireframe & UML_
+
 * _Design a wireframe concept and upload design details._
 
 <img src="./docs/wireframe.png" alt="wireframe">
@@ -84,21 +81,23 @@ Have split the objects into 5 modules:
 - Test on command line
 
 #### Day 3: _Canvas Skeleton_
+
 - Create the canvas objects
 
 #### Day 4: _Apply Objects_
+
 - Bind the canvas objects to events
 
 #### Day 5: _Improve Project_
+
 - Apply this template onto other card games
 
 #### Day 6-7: _Debug_
 
-
-
-
 ## Checklist
+
 ### Live Project
+
 - [ ] Includes links to your portfolio website, Github, and LinkedIn.
 
 - [ ] Landing page/modal with obvious, clear instructions.
@@ -110,6 +109,7 @@ Have split the objects into 5 modules:
 - [ ] If it has music, the option to mute or stop it.
 
 ### Production README
+
 - [ ] Link to live version.
 
 - [ ] Instructions on how to play/interact with the project.
@@ -123,3 +123,34 @@ Have split the objects into 5 modules:
 - [X] No .DS_Store files / debuggers / console.logs.
 
 - [X] Organized file structure, with /src and /dist directories.
+
+### Contributors
+
+<table>
+  <tr>
+      <td id="mauricio" align="center">
+         <a href="https://github.com/mjlomeli">
+         <img src="https://avatars.githubusercontent.com/u/46548793?v=4" width="100px;" alt=""/><br />
+         <sub><b>Mauricio Lomeli</b></sub></a><br />
+         <label>Code</label>
+      </td>
+      <td id="charis" align="center">
+         <a href="https://github.com/Eruanne2">
+         <img src="https://avatars.githubusercontent.com/u/67379065?v=4" width="100px;" alt=""/><br />
+         <sub><b>Charis Ginn</b></sub></a><br />
+         <label>Mentor</label>
+      </td>
+      <td id="paulo" align="center">
+         <a href="#">
+         <img src="https://secure.gravatar.com/avatar/c90a96bff8b9b6d8b373f26e17851899?secure=true&size=300" width="100px;" alt=""/><br />
+         <sub><b>Paulo Bocanegra</b></sub></a><br />
+         <label>Mentor</label>
+      </td>
+      <td id="mike" align="center">
+         <a href="https://github.com/mwmadsen67">
+         <img src="https://avatars.githubusercontent.com/u/45531900?v=4" width="100px;" alt=""/><br />
+         <sub><b>Mike Madsen</b></sub></a><br />
+         <label>Mentor</label>
+      </td>
+   </tr>
+</table>
