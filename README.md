@@ -101,25 +101,25 @@ Have split the objects into 5 modules:
 ### Live Project
 - [ ] Includes links to your portfolio website, Github, and LinkedIn.
 
--[ ] Landing page/modal with obvious, clear instructions.
+- [ ] Landing page/modal with obvious, clear instructions.
 
-[ ] Interactivity of some kind.
+- [ ] Interactivity of some kind.
 
--[ ] Well styled, clean frontend.
+- [ ] Well styled, clean frontend.
 
--[ ] If it has music, the option to mute or stop it.
+- [ ] If it has music, the option to mute or stop it.
 
 ### Production README
--[ ] Link to live version.
+- [ ] Link to live version.
 
--[ ] Instructions on how to play/interact with the project.
+- [ ] Instructions on how to play/interact with the project.
 
--[ ] List of technologies / libraries / APIs used.
+- [ ] List of technologies / libraries / APIs used.
 
--[ ] Technical implementation details with (good-looking) code snippets.
+- [ ] Technical implementation details with (good-looking) code snippets.
 
--[ ] To-dos / future features.
+- [ ] To-dos / future features.
 
--[ ] No .DS_Store files / debuggers / console.logs.
+- [ ] No .DS_Store files / debuggers / console.logs.
 
--[ ] Organized file structure, with /src and /dist directories.
+- [ ] Organized file structure, with /src and /dist directories.
