@@ -76,8 +76,7 @@ Have split the objects into 5 modules:
 * _Design a wireframe concept and upload design details._
 
 <img src="./docs/wireframe.png" alt="wireframe">
-<img src="./docs/card.png" alt="card">
-<img src="./docs/deck.png" alt="card">
+<img src="./docs/uml.png" alt="card">
 
 #### Day 2: _Skeleton Setup_
 
