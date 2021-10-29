@@ -20,8 +20,9 @@ pickle-email-*.html
 
 #ingnore all Jetbrains files
 /.idea
+.idea/
+.idea/*
 */.idea
-.idea
 
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo

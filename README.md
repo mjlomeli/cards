@@ -120,6 +120,6 @@ Have split the objects into 5 modules:
 
 - [ ] To-dos / future features.
 
-- [ ] No .DS_Store files / debuggers / console.logs.
+- [X] No .DS_Store files / debuggers / console.logs.
 
-- [ ] Organized file structure, with /src and /dist directories.
+- [X] Organized file structure, with /src and /dist directories.
