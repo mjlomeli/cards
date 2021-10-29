@@ -103,7 +103,7 @@ Have split the objects into 5 modules:
 
 -[ ] Landing page/modal with obvious, clear instructions.
 
--[ ] Interactivity of some kind.
+[ ] Interactivity of some kind.
 
 -[ ] Well styled, clean frontend.
 
