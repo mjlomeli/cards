@@ -144,7 +144,7 @@ Have split the objects into 5 modules:
          <a href="#">
          <img src="https://secure.gravatar.com/avatar/c90a96bff8b9b6d8b373f26e17851899?secure=true&size=300" width="100px;" alt=""/><br />
          <sub><b>Paulo Bocanegra</b></sub></a><br />
-         <label>Ideas & Planning</label>
+         <label>Debugging</label>
       </td>
       <td id="mike" align="center">
          <a href="https://github.com/mwmadsen67">

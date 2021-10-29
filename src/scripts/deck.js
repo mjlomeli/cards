@@ -1,16 +1,17 @@
-class Card {
-    constructor(){
-
-    }
-}
+import Card from "./card"
 
 class Deck {
     // Credit goes to Kadamwhite for providing the starter skeleton: https://www.npmjs.com/package/card-deck
     constructor(){
+        this.cards = [];
         this.length = 0;
-
     }
 }
+
+Deck.prototype.generate = function(){
+
+}
+
 
 Deck.prototype.shuffle = function(){
 
@@ -19,6 +20,18 @@ Deck.prototype.shuffle = function(){
 
 Deck.prototype.top = function(num=1){
 
+}
+
+
+var main = function(){
+    // code to run
+
+    var deck = Deck();
+}
+
+if (typeof require !== 'undefined' && require.main === module) {
+    // same as if __name__ === "__main__"
+    main();
 }
 
 
@@ -72,3 +85,4 @@ Deck.prototype.toString = function(){
 }
 
 
+export default Deck
