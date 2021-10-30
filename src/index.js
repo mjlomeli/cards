@@ -1,6 +1,6 @@
 // TODO: import from project
 
-import Example from "./scripts/example.js"
+import Example from "./scripts/example.mjs"
 
 document.addEventListener("DOMContentLoaded", () => {
 

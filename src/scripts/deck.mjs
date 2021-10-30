@@ -1,4 +1,4 @@
-import Card from "./card"
+import Card from "./card.mjs"
 
 class Deck {
     // Credit goes to Kadamwhite for providing the starter skeleton: https://www.npmjs.com/package/card-deck
