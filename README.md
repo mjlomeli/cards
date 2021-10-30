@@ -140,12 +140,14 @@ Have split the objects into 5 modules:
          <sub><b>Charis Ginn</b></sub></a><br />
          <label>Mentor</label>
       </td>
+      <!-- Paulo hasn't agreed to being credited
       <td id="paulo" align="center">
          <a href="#">
          <img src="https://secure.gravatar.com/avatar/c90a96bff8b9b6d8b373f26e17851899?secure=true&size=300" width="100px;" alt=""/><br />
          <sub><b>Paulo Bocanegra</b></sub></a><br />
          <label>Debugging</label>
       </td>
+      -->
       <td id="mike" align="center">
          <a href="https://github.com/mwmadsen67">
          <img src="https://avatars.githubusercontent.com/u/45531900?v=4" width="100px;" alt=""/><br />

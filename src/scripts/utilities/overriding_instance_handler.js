@@ -1,34 +1,7 @@
-class MyClass {
-    constructor(){
-        return new Proxy(this, handler);
-    }
-}
-
-const target = {
-    notProxied: "original value",
-    proxied: "original value"
-};
-
-const handler = {
-    // Traps the 'in' operator
-    has(target, key) {
-        console.debug(`has(${target}, ${key})`)
-        if (key[0] === '_') {
-            return false;
-        }
-        return key in target;
-    },
-
-    // Traps the 'new' operator and runs before running the constructor
-    construct(target, args) {
-        console.log('monster1 constructor called');
-        // expected output: "monster1 constructor called"
-
-        return new target(...args);
-    },
-
+const InstanceHandler = {
     // Traps the '.' operator when grabbing a class's property/attribute
     get: function(target, prop, receiver) {
+        console.debug(`InstanceHandler.get(${target.name}, ${prop}, ${typeof receiver})})`)
         if (prop === "proxied") {
             return "replaced value";
         }
@@ -37,6 +10,7 @@ const handler = {
 
     // traps the '.' operator when assigning a class's property/attribute
     set(obj, prop, value) {
+        console.debug(`InstanceHandler.set(${obj.name}, ${prop}, ${value})`)
         if (prop === 'proxied') {
             console.log(`You just tried to set the value to ${value}`);
         } else {
@@ -44,17 +18,19 @@ const handler = {
         }
     },
 
-    // traps the 'delete' operator
-    deleteProperty(target, prop) {
-        if (prop in target) {
-            delete target[prop];
-            console.log(`property removed: ${prop}`);
-            // expected output: "property removed: texture"
+    // Traps the 'in' operator
+    has(target, key) {
+        console.debug(`InstanceHandler.has(${target.name}, ${key})`)
+        if (key[0] === '_') {
+            return false;
         }
+        console.log(target.proxied);
+        return key in target;
     },
 
     // traps the defineProperty which runs before creating a new property
     defineProperty(target, key, descriptor) {
+        console.debug(`InstanceHandler.defineProperty(${target.name}, ${key}, ${descriptor})`)
         function invariant(key, action) {
             // raise an error if property name has a '_' before the name
             if (key[0] === '_') throw new Error(`Invalid property definition starting with '_'`);
@@ -64,11 +40,25 @@ const handler = {
     }
 };
 
-const proxy = new Proxy(target, handler);
+
+class MyClass {
+    constructor(){
+        this.notProxied = "original value";
+        this.proxied = "original value";
+        return new Proxy(this, InstanceHandler);
+    }
+}
+
+//const proxy = new Proxy(target, handler);
+
+var proxy = new MyClass();
 
 console.log(proxy.notProxied); // "original value"
 console.log(proxy.proxied);    // "replaced value"
 proxy.proxied = 10;
 console.log('proxied' in proxy);
-proxy._name = 11; // throws an error because I don't want a property starting with '_'
+//proxy._name = 11; // throws an error because I don't want a property starting with '_'
 
+delete proxy;
+
+module.exports = InstanceHandler
