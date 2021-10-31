@@ -24,7 +24,7 @@ of concept.
 ### In Cards, users will be able to:
 
 * Drag and drop
-* Card selection
+* CardMjs selection
 * Reset game
 * Visualize score
 * More TBA after completion of above
@@ -44,7 +44,7 @@ of concept.
 
 Have split the objects into 5 modules:
 
-1. Card
+1. CardMjs
     - Has a shape
     - Front face image
     - Back face image
@@ -56,10 +56,10 @@ Have split the objects into 5 modules:
     - Is a data structure of Cards
     - Shuffles
     - Draws a card
-3. Board
+3. BoardMjs
     - Links cards to positions to be placed
     - Background scenery
-4. Game
+4. GameMjs
     - Generates a deck out of cards by downloading from the API.
     - Player takes turns to solve the game.
 6. Utilities

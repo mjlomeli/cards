@@ -1,0 +1,184 @@
+const StaticHandler = {
+    // Traps the 'new' operator and runs before running the constructor
+    construct(target, args) {
+        let str_args = args.map(value => JSON.stringify(value)).join("\x1b[36m, \x1b[0m")
+        console.debug(`\x1b[36mnew ${target.name.replace("__", "")}(\x1b[0m${str_args}\x1b[36m)\x1b[0m`);
+        function invariant(args, action) {
+            // raise an error if invalid arguments
+            let err_args = args.map(value => JSON.stringify(value)).join(", ")
+            if (args.length === 0 || args.length > 3)
+                throw new Error(`\x1b[31mInvalid arguments: Card(${err_args})\x1b[0m`);
+        }
+        //invariant(args, 'arguments');
+
+        return new target(...args);
+    }
+};
+
+const InstanceHandler = {
+    // traps the 'delete' operator
+    deleteProperty(target, prop) {
+        console.debug(`\x1b[36m${target.constructor.name}.deleteProperty(\x1b[0m${prop}\x1b[36m)\x1b[0m`);
+        if (prop in target) {
+            delete target[prop];
+            console.debug(`\x1b[36m  ⤷ Deleted property: \x1b[32m${prop}\x1b[0m`);
+        }
+    },
+
+    get: function (target, prop, receiver) {
+        let str_prop = prop.toString()
+        console.debug(`\x1b[36m${target.constructor.name}.get(\x1b[0m${str_prop}\x1b[36m)\x1b[0m`);
+        let gotten = Reflect.get(...arguments);
+        console.debug(`\x1b[36m  ⤷ returned: \x1b[32m${JSON.stringify(gotten)}\x1b[0m`);
+        return gotten
+    },
+
+    // traps the '.' operator when assigning a class's property/attribute
+    set(obj, prop, value) {
+        let str_val = JSON.stringify(value);
+        let str_prop = JSON.stringify(prop)
+        console.debug(`\x1b[36m${obj.constructor.name}.\x1b[0m${str_prop}\x1b[36m = \x1b[0m${str_val}\x1b[36m;\x1b[0m`);
+        let set_result = Reflect.set(...arguments);
+        console.debug(`\x1b[36m  ⤷ ${prop} set to: \x1b[32m${str_val}\x1b[0m`);
+        return set_result;
+    },
+
+    // Traps the 'in' operator
+    has(target, key) {
+        console.debug(`\x1b[0m${JSON.stringify(key)}\x1b[36m in \x1b[0m${target.constructor.name}\x1b[0m`);
+        if (key in target)
+            return true;
+        let found = false;
+        for (let i = 0; i < target.cards.length; i++) {
+            if (key in target.cards[i])
+                return true;
+        }
+        console.debug(`\x1b[36m  ⤷ returned: \x1b[32m${JSON.stringify(found)}\x1b[0m`);
+        return found;
+    },
+
+    // traps the defineProperty which runs before creating a new property
+    defineProperty(target, key, descriptor) {
+        let val = JSON.stringify(descriptor);
+        console.debug(`\x1b[36m  ⤷ Defining: ${target.constructor.name}\x1b[36m.\x1b[0m${key}\x1b[36m = \x1b[0m${val}`);
+
+        function invariant(key, action) {
+            // raise an error if property name has a '_' before the name
+            if (key[0] === '_') throw new Error(`Invalid property ${action} starting with '_'`);
+        }
+
+        // example
+        //invariant(key, 'definition');
+        return Reflect.defineProperty(...arguments);
+    }
+};
+
+
+
+class __Deck {
+    // Credit goes to Kadamwhite for providing the starter skeleton: https://www.npmjs.com/package/card-deck
+    constructor(){
+        this.cards = [];
+        this.length = 0;
+        return new Proxy(this, InstanceHandler);
+    }
+
+    repr(){
+        return `<Deck(length=${this.length}, cards=[...])>`;
+    }
+
+    push(card){
+        this.cards.push(card)
+        this.length++;
+    }
+
+    toString(){
+        return `<Deck(length=${this.length}, cards=[...])>`;
+    }
+
+    contains(card) {
+        for (let i = 0; i < this.cards; i++)
+            if (typeof card == 'string' || card instanceof String && card in this.cards[i])
+                return true;
+            else if (this.cards[i] === card)
+                return true;
+        return false;
+    }
+
+    shuffle(){
+        //Durstenfeld Shuffle: https://bost.ocks.org/mike/shuffle/
+        let i = this.cards.length;
+        let random_i;
+        while (i !== 0) {
+            random_i = Math.floor(Math.random() * i--);
+            [this.cards[i], this.cards[random_i]] = [this.cards[random_i], this.cards[i]];
+        }
+    }
+
+    top(){
+        return this.cards[0];
+    }
+
+    bottom(){
+        return this.cards[this.cards.length - 1];
+    }
+
+    remaining(){
+        return this.length;
+    }
+
+    draw(){
+        if (this.cards.length === 0)
+            throw new Error("Can't draw from an empty deck.")
+        this.length--;
+        return this.cards.shift();
+    }
+
+    drawFromBottom(){
+        if (this.cards.length === 0)
+            throw new Error("Can't draw from an empty deck.")
+        this.length--;
+        return this.cards.pop();
+    }
+
+    addToTop(card){
+        this.length = this.cards.unshift(card);
+    }
+
+    addToBottom(card){
+        this.cards.push(card);
+        this.length++;
+    }
+
+    addToRandom(card){
+        let index = Math.floor(Math.random() * this.cards.length);
+        this.cards.splice(index, 0, card);
+    }
+
+    drawWhere(callback, num=1){
+        let drawn_cards = [];
+        let i = 0;
+        while (num > 0 && i < this.cards.length){
+            if (callback(this.cards[i])){
+                drawn_cards.push(this.cards[i]);
+                num--;
+            }
+        }
+        return drawn_cards;
+    }
+
+    drawRandom(num=1){
+        let index = Math.floor(Math.random() * this.cards.length)
+        let number = (this.cards.length > num) ? num : this.cards.length;
+        this.cards.splice(index, number);
+    }
+}
+
+let Deck = new Proxy(__Deck, StaticHandler);
+
+
+//export default Deck
+module.exports = {
+    Deck : Deck,
+    __Deck: __Deck
+}

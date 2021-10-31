@@ -29,6 +29,10 @@ function main(){
 
 
 if (typeof require !== 'undefined' && require.main === module) {
-    // same as if __name__ === "__main__"
+    let tags = process.argv.slice(2);
+    if (!tags.includes('--debug'))
+        console.debug = function(){};
+    if (!tags.includes('--warn'))
+        console.warn = function(){};
     main();
 }
