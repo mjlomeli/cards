@@ -12,9 +12,3 @@
 h1 {
   color: blue;
 }
-
-canvas {
-  border: 2px solid black;
-  height: 100%;
-  width: 100%;
-}

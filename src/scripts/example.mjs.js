@@ -1,4 +1,4 @@
-class ExampleMjs {
+class Example{
     constructor(ele) {
         this.ele = ele;
         this.ele.innerHTML = "<h1>I'm alive!</h1>";
@@ -17,4 +17,4 @@ class ExampleMjs {
 }
 
 
-export default ExampleMjs
+export default Example

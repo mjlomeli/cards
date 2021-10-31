@@ -1,4 +1,4 @@
-class GameMjs {
+class Board {
     constructor(){
 
 
@@ -6,12 +6,13 @@ class GameMjs {
 }
 
 
-export default GameMjs
+export default Board
 
 
 var main = function(){
     // code to run
-    var game = new GameMjs();
+
+    var board = Board();
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
