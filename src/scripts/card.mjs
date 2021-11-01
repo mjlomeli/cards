@@ -11,7 +11,7 @@ const StaticHandler = {
                 throw new Error(`\x1b[31mInvalid arguments: Card(${err_args})\x1b[0m`);
         }
         //invariant(args, 'arguments');
-
+        
         return new target(...args);
     }
 };

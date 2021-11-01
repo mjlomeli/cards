@@ -1,13 +1,14 @@
 
 
 .card {
+    position: absolute;
     text-align: center;
-    position: relative;
     perspective: 150rem;
-    width: 5em;
-    height: 5em;
+    width: 10em;
+    height: 10em;
     background: none;
     box-shadow: none;
+    cursor: grab;
 }
 
 .card img{
@@ -21,8 +22,9 @@
     transition: all 0.4s ease;
     backface-visibility: hidden;
     position: absolute;
-    /* display: inline-block; */ /* snug fit */
+    /*display: inline-block;*/  /* snug fit */
 
+    object-fit: cover;
 }
 
 .card-side.back {

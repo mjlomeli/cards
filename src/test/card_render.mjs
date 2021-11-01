@@ -1,4 +1,5 @@
 import {isNodeJs, isBrowser, projectDirectory, openJson, product} from "../scripts/utilities/utilities.mjs";
+import {dragElement} from "../scripts/utilities/document_utilities.js";
 
 function getSolitaireJson() {
     /*
@@ -26,6 +27,7 @@ async function createCard(suit, rank){
     let backImageElement = document.createElement('img');
 
     cardElement.setAttribute('class', 'card')
+    cardElement.draggable = true;
     frontDiv.setAttribute('class', 'card-side front');
     backDiv.setAttribute('class', 'card-side back');
 
@@ -55,10 +57,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
     let ranks = ['ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king'];
     let pair = product(1, suits, ranks);
+    /*
     for (let i = 0; i < pair.length; i++) {
         let [suit, rank] = pair[i];
         let card = await createCard(suit, rank);
         div.appendChild(card);
         document.body.append(div)
     }
+     */
+    let card = await createCard('hearts', 'queen');
+    dragElement(card);
+    div.appendChild(card);
+    document.body.append(div)
 });

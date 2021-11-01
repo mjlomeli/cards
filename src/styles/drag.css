@@ -1,0 +1,9 @@
+#mydiv {
+    position: absolute;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+}
+
+#mydivheader {
+    cursor: move;
+}
