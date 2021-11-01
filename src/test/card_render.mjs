@@ -55,14 +55,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
     let ranks = ['ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king'];
     let pair = product(1, suits, ranks);
-    /*
     for (let i = 0; i < pair.length; i++) {
         let [suit, rank] = pair[i];
         let card = await createCard(suit, rank);
         div.appendChild(card);
         document.body.append(div)
     }
-     */
-    let card = await createCard('hearts', '2');
-    document.body.append(card);
 });

@@ -1,0 +1,14 @@
+body {
+    background-color: #076739;
+    font-family: sans-serif;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    padding-left: 1em;
+    padding-right: 1em;
+}

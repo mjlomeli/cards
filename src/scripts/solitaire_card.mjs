@@ -76,6 +76,7 @@ const InstanceHandler = {
 
 class __SolitaireCard extends __Card{
     static backImageUrl = "unknown";
+    static solitaireJSON = null;
     constructor(suit, rank, frontImageUrl=null){
         super(`${rank} of ${suit}`, frontImageUrl);
         this.rank = rank;
@@ -102,14 +103,36 @@ class __SolitaireCard extends __Card{
     }
 
     async createCardElement() {
-        this.element = document.createElement('img');
-        element.setAttribute('class', 'card');
-        element.dataset.suit = suit;
-        element.dataset.rank = rank;
-        element.setAttribute('alt', `${rank} of ${suit}`);
-        let data = await getSolitaireJson()
-        element.setAttribute('src', '../src/themes' + data[suit][rank]);
-        return element;
+        let cardElement = document.createElement('div');
+        let frontDiv = document.createElement('div');
+        let backDiv = document.createElement('div');
+        let frontImageElement = document.createElement('img');
+        let backImageElement = document.createElement('img');
+
+        cardElement.setAttribute('class', 'card')
+        frontDiv.setAttribute('class', 'card-side front');
+        backDiv.setAttribute('class', 'card-side back');
+
+        frontDiv.dataset.suit = suit;
+        frontDiv.dataset.rank = rank;
+        frontImageElement.setAttribute('alt', `${rank} of ${suit}`);
+        if (solitaireJSON === null)
+            __SolitaireCard.solitaireJSON = await getSolitaireJson();
+        frontImageElement.setAttribute('src', '../src/themes' + __SolitaireCard.solitaireJSON[suit][rank]);
+        frontDiv.appendChild(frontImageElement);
+
+        backDiv.dataset.suit = 'hidden';
+        backDiv.dataset.rank = 'hidden';
+        backImageElement.setAttribute('alt', `hidden`);
+        if (solitaireJSON === null)
+            __SolitaireCard.solitaireJSON = await getSolitaireJson();
+        backImageElement.setAttribute('src', '../src/themes' + __SolitaireCard.solitaireJSON['backside']);
+        backDiv.appendChild(backImageElement);
+
+        cardElement.appendChild(frontDiv);
+        cardElement.appendChild(backDiv);
+        this.element = cardElement;
+        return this.element;
     }
 
     async addCardAsChildToElement(element){

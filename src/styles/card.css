@@ -1,9 +1,7 @@
-body {
-    background-color: #eee;
-    font-family: sans-serif;
-}
+
 
 .card {
+    text-align: center;
     position: relative;
     perspective: 150rem;
     width: 5em;
@@ -15,14 +13,16 @@ body {
 .card img{
     width: 100%;
     height: auto;
+    display: block;
 }
 
 
 .card-side {
-    border-radius: 15px;
-    transition: all 0.8s ease;
+    transition: all 0.4s ease;
     backface-visibility: hidden;
     position: absolute;
+    /* display: inline-block; */ /* snug fit */
+
 }
 
 .card-side.back {
