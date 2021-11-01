@@ -82,6 +82,7 @@ class __Deck {
     static suits = ['hearts', 'spades', 'diamonds', 'clubs']
     static json_index = require('../themes/solitaire/index.json');
     constructor(){
+        // TODO: check if the image url loads correctly
         let pairs = product(__Deck.suits, __Deck.ranks);
         this.cards = pairs.map(pair =>{
             let [rank, suit] = pair;
