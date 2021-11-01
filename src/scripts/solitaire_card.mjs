@@ -1,4 +1,5 @@
 import { Card, __Card } from "./card.mjs";
+import {isBrowser, isNodeJs, openJson, projectDirectory} from "./utilities/utilities.mjs";
 
 const StaticHandler = {
     // Traps the 'new' operator and runs before running the constructor
@@ -79,18 +80,48 @@ class __SolitaireCard extends __Card{
         super(`${rank} of ${suit}`, frontImageUrl);
         this.rank = rank;
         this.suit = suit;
+        this.element = null;
         this.status = __SolitaireCard.backImageUrl;
         return new Proxy(this, InstanceHandler);
     }
 
-    addToImageElement(imageElement){
+    getSolitaireJson() {
+        /*
+            Must use keyword 'await' to use this.
+            Ex:
+                let deckIndex = await locateIndexJson();
+         */
+        let path = projectDirectory('cards') + '/src/themes/solitaire/index.json';
+        if (isNodeJs()) {
+            return openJson(path)
+        } else if (isBrowser()) {
+            // openJson returns a promise so await must be added to the caller.
+            return openJson(path)
+        }
+        return {};
+    }
 
+    async createCardElement() {
+        this.element = document.createElement('img');
+        element.setAttribute('class', 'card');
+        element.dataset.suit = suit;
+        element.dataset.rank = rank;
+        element.setAttribute('alt', `${rank} of ${suit}`);
+        let data = await getSolitaireJson()
+        element.setAttribute('src', '../src/themes' + data[suit][rank]);
+        return element;
+    }
+
+    async addCardAsChildToElement(element){
+        this.element ||= this.createCardElement();
+        element.appendChild(this.element);
     }
 
     flip(){
-        // https://www.30secondsofcode.org/css/s/rotating-card
-        // https://www.w3schools.com/howto/howto_css_flip_card.asp
-        // https://3dtransforms.desandro.com/card-flip
+        // TODO: monday
+        //  https://www.30secondsofcode.org/css/s/rotating-card
+        //  https://www.w3schools.com/howto/howto_css_flip_card.asp
+        //  https://3dtransforms.desandro.com/card-flip
         if (this.status === __SolitaireCard.backImageUrl)
             this.status = `${this.name}`;
         else
@@ -98,6 +129,7 @@ class __SolitaireCard extends __Card{
     }
 
     drag(){
+        //TODO: monday
         // https://www.w3schools.com/howto/howto_js_draggable.asp
         // https://codepen.io/mgmarlow/pen/YwJGRe?editors=1010
         // https://javascript.plainenglish.io/using-javascript-to-create-trello-like-card-re-arrange-and-drag-and-drop-557e60125bb4

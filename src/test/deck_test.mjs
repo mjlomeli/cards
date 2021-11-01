@@ -1,8 +1,6 @@
 import {Deck} from "../scripts/deck.mjs"
 import {SolitaireCard} from "../scripts/solitaire_card.mjs";
-import {product} from "../scripts/utilities/cartesian_product.mjs";
-
-
+import {isNodeJs, product} from "../scripts/utilities/utilities.mjs";
 
 function main(){
     console.log(`\x1b[1;36m${'Testing Deck'}\x1b[0m`);
@@ -55,13 +53,7 @@ function main(){
 }
 
 
-// Way of detecting if running off Node.js
-if ((typeof process !== 'undefined') && (process.release.name === 'node') ||
-    // Node (>= 3.0.0) or io.js
-    ((typeof process !== 'undefined') && (process.release.name.search(/node|io.js/) !== -1)) ||
-    // Node (>= 0.10.0) or io.js
-    ((typeof process !== 'undefined') && (typeof process.versions.node !== 'undefined'))) {
-
+if (isNodeJs()){
     let tags = process.argv.slice(2);
     if (!tags.includes('--debug'))
         console.debug = function(){};
@@ -69,5 +61,3 @@ if ((typeof process !== 'undefined') && (process.release.name === 'node') ||
         console.warn = function(){};
     main();
 }
-// Runs if the HTML window isn't given
-else if (typeof window === 'undefined') {}
