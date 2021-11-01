@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Card</title>
+    <link rel="stylesheet" href="../src/styles/card.css" />
+    <script type="module" src="../src/scripts/solitaire_card.mjs"></script>
+
+</head>
+<body>
+
+
+<div class="card">
+
+</div>
+
+<script>
+    let card = document.querySelector('.card');
+    let child_div = document.createElement('img');
+    child_div.setAttribute('class', 'card');
+    child_div.setAttribute('src', '../src/themes/solitaire/2_of_clubs.svg');
+    child_div.setAttribute('alt', '2_of_clubs');
+    card.appendChild(child_div);
+
+</script>
+
+</body>
+</html>

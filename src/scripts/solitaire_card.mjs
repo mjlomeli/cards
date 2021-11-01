@@ -75,14 +75,16 @@ const InstanceHandler = {
 
 class __SolitaireCard extends __Card{
     static backImageUrl = "unknown";
-    static values = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King'];
-    static suits = {'Hearts':'♥', 'Spades':'♠', 'Diamonds':'♦', 'Clubs':'♣'}
-    constructor(value, suit, frontImageUrl=null){
-        super(`${value} of ${suit}`, frontImageUrl);
-        this.value = value;
+    constructor(suit, rank, frontImageUrl=null){
+        super(`${rank} of ${suit}`, frontImageUrl);
+        this.rank = rank;
         this.suit = suit;
         this.status = __SolitaireCard.backImageUrl;
         return new Proxy(this, InstanceHandler);
+    }
+
+    addToImageElement(imageElement){
+
     }
 
     flip(){
@@ -108,14 +110,14 @@ class __SolitaireCard extends __Card{
         if (this.status === __SolitaireCard.backImageUrl)
             return `<SolitareCard(${this.status})>`;
         else if (this.suit === 'Hearts' || this.suit === 'Diamonds')
-            return `\x1b[31m[${__SolitaireCard.suits[this.suit]}${this.value}]\x1b[0m`
+            return `\x1b[31m[${__SolitaireCard.suits[this.suit]}${this.rank}]\x1b[0m`
         else if (this.suit === 'Clubs' || this.suit === 'Spades')
-            return `\x1b[37m[${__SolitaireCard.suits[this.suit]}${this.value}]\x1b[0m`
+            return `\x1b[37m[${__SolitaireCard.suits[this.suit]}${this.rank}]\x1b[0m`
         return `<SolitareCard(${this.status})>`;
     }
 
     repr(){
-        let value = JSON.stringify(this.value);
+        let value = JSON.stringify(this.rank);
         let suit = JSON.stringify(this.suit);
         let status = JSON.stringify(this.status);
         return `<SolitaireCard(value=${value}, suit=${suit}, status=${status})>`;
@@ -132,7 +134,7 @@ class __SolitaireCard extends __Card{
     }
 
     integer_value(){
-        let value = this.value
+        let value = this.rank
         if (typeof value === 'string' || value instanceof String)
             value = value.toLowerCase()[0];
         switch (value){
@@ -145,7 +147,7 @@ class __SolitaireCard extends __Card{
             case 'k':
                 return 13;
             default:
-                return parseInt(this.value);
+                return parseInt(this.rank);
         }
     }
 
