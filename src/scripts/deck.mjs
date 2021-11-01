@@ -186,8 +186,4 @@ class __Deck {
 let Deck = new Proxy(__Deck, StaticHandler);
 
 
-//export default Deck
-module.exports = {
-    Deck : Deck,
-    __Deck: __Deck
-}
+export { Deck, __Deck }

@@ -1,5 +1,4 @@
-const SolitaireClass = require('../src/scripts/solitaire_card.mjs')
-let SolitaireCard = SolitaireClass.SolitaireCard;
+import {SolitaireCard} from "../scripts/solitaire_card.mjs";
 
 var main = function(){
     // code to run
@@ -24,7 +23,13 @@ var main = function(){
 
 }
 
-if (typeof require !== 'undefined' && require.main === module) {
+// Way of detecting if running off Node.js
+if ((typeof process !== 'undefined') && (process.release.name === 'node') ||
+    // Node (>= 3.0.0) or io.js
+    ((typeof process !== 'undefined') && (process.release.name.search(/node|io.js/) !== -1)) ||
+    // Node (>= 0.10.0) or io.js
+    ((typeof process !== 'undefined') && (typeof process.versions.node !== 'undefined'))) {
+
     let tags = process.argv.slice(2);
     if (!tags.includes('--debug'))
         console.debug = function(){};
@@ -32,3 +37,5 @@ if (typeof require !== 'undefined' && require.main === module) {
         console.warn = function(){};
     main();
 }
+// Runs if the HTML window isn't given
+else if (typeof window === 'undefined') {}

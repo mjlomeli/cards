@@ -7,6 +7,5 @@ const StaticHandler = {
     }
 };
 
-module.exports = StaticHandler
 
-//export default StaticHandler;
+export default StaticHandler;

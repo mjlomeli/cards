@@ -2,10 +2,11 @@ const InstanceHandler = {
     // traps the 'delete' operator
     deleteProperty(target, prop) {
         console.debug(`\x1b[36m${target.constructor.name}.deleteProperty(\x1b[0m${prop}\x1b[36m)\x1b[0m`);
-        if (prop in target) {
-            delete target[prop];
+        let delReturn = Reflect.deleteProperty(...arguments)
+        if (delReturn) {
             console.debug(`\x1b[36m  ⤷ Deleted property: \x1b[32m${prop}\x1b[0m`);
         }
+        return delReturn;
     },
 
     get: function(target, prop, receiver) {
@@ -22,14 +23,18 @@ const InstanceHandler = {
         let str_prop = JSON.stringify(prop)
         console.debug(`\x1b[36m${obj.constructor.name}.\x1b[0m${str_prop}\x1b[36m = \x1b[0m${str_val}\x1b[36m;\x1b[0m`);
         let set_result = Reflect.set(...arguments);
-        console.debug(`\x1b[36m  ⤷ ${prop} set to: \x1b[32m${str_val}\x1b[0m`);
+        if (set_result) {
+            console.debug(`\x1b[36m  ⤷ ${prop} set to: \x1b[32m${str_val}\x1b[0m`);
+        } else {
+            console.debug(`\x1b[31mFailed to set ${obj.constructor.name}.${str_prop} = ${str_val}\x1b[0m`);
+        }
         return set_result;
     },
 
     // Traps the 'in' operator
     has(target, key) {
         console.debug(`\x1b[0m${JSON.stringify(key)}\x1b[36m in \x1b[0m${target.constructor.name}\x1b[0m`);
-        let found = key in target;
+        let found = Reflect.has(...arguments);
         console.debug(`\x1b[36m  ⤷ returned: \x1b[32m${JSON.stringify(found)}\x1b[0m`);
         return found
     },
@@ -47,6 +52,5 @@ const InstanceHandler = {
     }
 };
 
-module.exports = InstanceHandler
 
-//export default InstanceHandler;
+export default InstanceHandler;

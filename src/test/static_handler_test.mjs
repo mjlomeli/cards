@@ -1,7 +1,4 @@
-//import StaticHandler from '../src/scripts/utilities/overriding_static_handler.js'
-const StaticHandler = require('../src/scripts/utilities/overriding_static_handler.js')
-
-
+import StaticHandler from "../scripts/utilities/overriding_static_handler.mjs"
 
 function main(){
     class __MyClass {
@@ -17,7 +14,13 @@ function main(){
 
 
 
-if (typeof require !== 'undefined' && require.main === module) {
+// Way of detecting if running off Node.js
+if ((typeof process !== 'undefined') && (process.release.name === 'node') ||
+    // Node (>= 3.0.0) or io.js
+    ((typeof process !== 'undefined') && (process.release.name.search(/node|io.js/) !== -1)) ||
+    // Node (>= 0.10.0) or io.js
+    ((typeof process !== 'undefined') && (typeof process.versions.node !== 'undefined'))) {
+
     let tags = process.argv.slice(2);
     if (!tags.includes('--debug'))
         console.debug = function(){};
@@ -25,3 +28,5 @@ if (typeof require !== 'undefined' && require.main === module) {
         console.warn = function(){};
     main();
 }
+// Runs if the HTML window isn't given
+else if (typeof window === 'undefined') {}

@@ -1,5 +1,3 @@
-const CardClass = require('./card.mjs')
-let Card = CardClass.__Card;
 
 const StaticHandler = {
     // Traps the 'new' operator and runs before running the constructor
@@ -50,10 +48,9 @@ const InstanceHandler = {
     has(target, key) {
         console.debug(`\x1b[0m${JSON.stringify(key)}\x1b[36m in \x1b[0m${target.constructor.name}\x1b[0m`);
         let found = key in target;
-        let valueFound = key === target.value;
-        let suitFound = key === target.suit;
+        let nameFound = key === target.name;
         console.debug(`\x1b[36m  ⤷ returned: \x1b[32m${JSON.stringify(found)}\x1b[0m`);
-        return found || valueFound || suitFound;
+        return found || nameFound;
     },
 
     // traps the defineProperty which runs before creating a new property
@@ -73,24 +70,11 @@ const InstanceHandler = {
 };
 
 
-
-class __SolitaireCard extends Card{
-    static backImageUrl = "unknown";
-    static values = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King'];
-    static suits = {'Hearts':'♥', 'Spades':'♠', 'Diamonds':'♦', 'Clubs':'♣'}
-    constructor(value, suit, frontImageUrl=null){
-        super(`${value} of ${suit}`, frontImageUrl);
-        this.value = value;
-        this.suit = suit;
-        this.status = __SolitaireCard.backImageUrl;
+class __Card {
+    constructor(name, frontImageUrl=null){
+        this.name = name;
+        this.frontImageUrl = frontImageUrl;
         return new Proxy(this, InstanceHandler);
-    }
-
-    flip(){
-        if (this.status === __SolitaireCard.backImageUrl)
-            this.status = `${this.name}`;
-        else
-            this.status = __SolitaireCard.backImageUrl;
     }
 
     contains(other){
@@ -106,20 +90,13 @@ class __SolitaireCard extends Card{
     }
 
     toString(){
-        if (this.status === __SolitaireCard.backImageUrl)
-            return `<SolitareCard(${this.status})>`;
-        else if (this.suit === 'Hearts' || this.suit === 'Diamonds')
-            return `\x1b[31m[${__SolitaireCard.suits[this.suit]}${this.value}]\x1b[0m`
-        else if (this.suit === 'Clubs' || this.suit === 'Spades')
-            return `\x1b[37m[${__SolitaireCard.suits[this.suit]}${this.value}]\x1b[0m`
-        return `<SolitareCard(${this.status})>`;
+        return `<Card(${JSON.stringify(this.name)})>`;
     }
 
     repr(){
-        let value = JSON.stringify(this.value);
-        let suit = JSON.stringify(this.suit);
-        let status = JSON.stringify(this.status);
-        return `<SolitaireCard(value=${value}, suit=${suit}, status=${status})>`;
+        let name = JSON.stringify(this.name);
+        let frontImageUrl = JSON.stringify(this.frontImageUrl);
+        return `<Card(name=${name}, frontImageUrl=${frontImageUrl})>`;
     }
 
     equals(other){
@@ -131,66 +108,9 @@ class __SolitaireCard extends Card{
         }
         return true;
     }
-
-    integer_value(){
-        let value = this.value
-        if (typeof value === 'string' || value instanceof String)
-            value = value.toLowerCase()[0];
-        switch (value){
-            case 'a':
-                return 1;
-            case 'j':
-                return 11;
-            case 'q':
-                return 12;
-            case 'k':
-                return 13;
-            default:
-                return parseInt(this.value);
-        }
-    }
-
-    compare(other){
-        // return -1, 0, or 1
-        if (typeof other !== typeof this)
-            throw new Error(`Can't compare ${other} to ${this}.`);
-        if (other.suit !== this.suit) {
-            console.warn(`\x1b[33m[WARNING]: Compared both cards but they don't have the same suit: \n\t${this.repr()}\n\t${other.repr()}\x1b[0m`);
-            return null;
-        }
-        let this_integer = this.integer_value();
-        let other_integer = other.integer_value();
-        if (this_integer < other_integer)
-            return -1;
-        else if (this_integer === other_integer)
-            return 0;
-        else
-            return 1;
-    }
-
-    greaterThan(other){
-        return this.compare(other) === 1
-    }
-
-    lessThan(other){
-        return this.compare(other) === -1;
-    }
-
-    greaterThanEq(other){
-        let cmp = this.compare(other)
-        return cmp === 1 || cmp === 0;
-    }
-
-    lessThanEq(other){
-        let cmp = this.compare(other)
-        return cmp === -1 || cmp === 0;
-    }
 }
 
-let SolitaireCard = new Proxy(__SolitaireCard, StaticHandler);
 
+let Card = new Proxy(__Card, StaticHandler);
 
-module.exports = {
-    SolitaireCard: SolitaireCard,
-    __SolitaireCard: __SolitaireCard
-};
+export { Card, __Card }
