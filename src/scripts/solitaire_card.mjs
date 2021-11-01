@@ -88,10 +88,20 @@ class __SolitaireCard extends __Card{
     }
 
     flip(){
+        // https://www.30secondsofcode.org/css/s/rotating-card
+        // https://www.w3schools.com/howto/howto_css_flip_card.asp
+        // https://3dtransforms.desandro.com/card-flip
         if (this.status === __SolitaireCard.backImageUrl)
             this.status = `${this.name}`;
         else
             this.status = __SolitaireCard.backImageUrl;
+    }
+
+    drag(){
+        // https://www.w3schools.com/howto/howto_js_draggable.asp
+        // https://codepen.io/mgmarlow/pen/YwJGRe?editors=1010
+        // https://javascript.plainenglish.io/using-javascript-to-create-trello-like-card-re-arrange-and-drag-and-drop-557e60125bb4
+        // https://web.dev/drag-and-drop/
     }
 
     contains(other){
