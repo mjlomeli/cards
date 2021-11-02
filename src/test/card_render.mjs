@@ -1,5 +1,6 @@
 import {isNodeJs, isBrowser, projectDirectory, openJson, product} from "../scripts/utilities/utilities.mjs";
 import {dragElement} from "../scripts/utilities/document_utilities.js";
+import {SolitaireCard} from "../scripts/solitaire_card.mjs";
 
 function getSolitaireJson() {
     /*
@@ -21,6 +22,7 @@ let solitaireJSON = null;
 
 async function createCard(suit, rank){
     let cardElement = document.createElement('div');
+    let checked = document.createElement('input');
     let frontDiv = document.createElement('div');
     let backDiv = document.createElement('div');
     let frontImageElement = document.createElement('img');
@@ -28,9 +30,11 @@ async function createCard(suit, rank){
 
     cardElement.setAttribute('class', 'card')
     cardElement.draggable = true;
+    checked.setAttribute('type', 'checkbox');
     frontDiv.setAttribute('class', 'card-side front');
     backDiv.setAttribute('class', 'card-side back');
 
+    cardElement.dataset.flipped = 'false';
     frontDiv.dataset.suit = suit;
     frontDiv.dataset.rank = rank;
     frontImageElement.setAttribute('alt', `${rank} of ${suit}`);
@@ -49,6 +53,55 @@ async function createCard(suit, rank){
 
     cardElement.appendChild(frontDiv);
     cardElement.appendChild(backDiv);
+
+
+
+    let moved = false;
+
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    cardElement.onmousedown = dragMouseDown;
+
+    function dragMouseDown(e) {
+        moved = false;
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        moved = true;
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        cardElement.style.top = (cardElement.offsetTop - pos2) + "px";
+        cardElement.style.left = (cardElement.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+
+    backDiv.classList.toggle('flip');
+    cardElement.addEventListener("click", () =>{
+        // classList access the css, we use .flip (note: doesn't need to have the same class name)
+        if (!moved) {
+            backDiv.classList.toggle("flip");
+            frontDiv.classList.toggle("flip");
+        }
+    });
+
     return cardElement;
 }
 
@@ -66,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
      */
     let card = await createCard('hearts', 'queen');
-    dragElement(card);
+    //let card = await new SolitaireCard('hearts', 'queen');
     div.appendChild(card);
     document.body.append(div)
 });

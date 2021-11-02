@@ -22,22 +22,22 @@
     transition: all 0.4s ease;
     backface-visibility: hidden;
     position: absolute;
-    /*display: inline-block;*/  /* snug fit */
-
     object-fit: cover;
 }
 
-.card-side.back {
-    transform: rotateY(-180deg);
-}
 
-.card-side.front {
-}
-
+/*
 .card:hover .card-side.front {
     transform: rotateY(180deg);
 }
 
 .card:hover .card-side.back {
     transform: rotateY(0deg);
+}
+
+ */
+
+
+.flip {
+    transform: rotateY(180deg);
 }

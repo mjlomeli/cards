@@ -1,17 +1,20 @@
-import { Card, __Card } from "./card.mjs";
+import {Card, __Card} from "./card.mjs";
 import {isBrowser, isNodeJs, openJson, projectDirectory} from "./utilities/utilities.mjs";
+import {dragElement} from "./utilities/document_utilities.js";
 
 const StaticHandler = {
     // Traps the 'new' operator and runs before running the constructor
     construct(target, args) {
         let str_args = args.map(value => JSON.stringify(value)).join("\x1b[36m, \x1b[0m")
         console.debug(`\x1b[36mnew ${target.name.replace("__", "")}(\x1b[0m${str_args}\x1b[36m)\x1b[0m`);
+
         function invariant(args, action) {
             // raise an error if invalid arguments
             let err_args = args.map(value => JSON.stringify(value)).join(", ")
             if (args.length === 0 || args.length > 3)
                 throw new Error(`\x1b[31mInvalid arguments: Card(${err_args})\x1b[0m`);
         }
+
         //invariant(args, 'arguments');
 
         return new target(...args);
@@ -73,17 +76,27 @@ const InstanceHandler = {
 };
 
 
-
-class __SolitaireCard extends __Card{
+class __SolitaireCard extends __Card {
     static backImageUrl = "unknown";
     static solitaireJSON = null;
-    constructor(suit, rank, frontImageUrl=null){
+
+    constructor(suit, rank, frontImageUrl = null) {
         super(`${rank} of ${suit}`, frontImageUrl);
+        if (solitaireJSON === null)
+            __SolitaireCard.solitaireJSON = getSolitaireJson();
         this.rank = rank;
         this.suit = suit;
-        this.element = null;
+        this.cardElement = null
+        this.frontElement = null;
+        this.backElement = null;
+        this.moved = false;
         this.status = __SolitaireCard.backImageUrl;
-        return new Proxy(this, InstanceHandler);
+        //return new Proxy(this, InstanceHandler);
+    }
+
+    async build() {
+        // all async elements should be defined here
+        await createCardElement();
     }
 
     getSolitaireJson() {
@@ -103,63 +116,119 @@ class __SolitaireCard extends __Card{
     }
 
     async createCardElement() {
-        let cardElement = document.createElement('div');
-        let frontDiv = document.createElement('div');
-        let backDiv = document.createElement('div');
+        // Create the parts of the card
+        this.cardElement = document.createElement('div');
+        this.frontElement = document.createElement('div');
+        this.backElement = document.createElement('div');
         let frontImageElement = document.createElement('img');
         let backImageElement = document.createElement('img');
 
-        cardElement.setAttribute('class', 'card')
-        frontDiv.setAttribute('class', 'card-side front');
-        backDiv.setAttribute('class', 'card-side back');
+        // Add meta data
+        this.cardElement.setAttribute('class', 'card')
+        this.frontElement.setAttribute('class', 'card-side front');
+        this.backElement.setAttribute('class', 'card-side back');
 
-        frontDiv.dataset.suit = suit;
-        frontDiv.dataset.rank = rank;
+        // Edit front card
+        this.frontElement.dataset.suit = suit;
+        this.frontElement.dataset.rank = rank;
         frontImageElement.setAttribute('alt', `${rank} of ${suit}`);
-        if (solitaireJSON === null)
+        if (__SolitaireCard.solitaireJSON === null)
             __SolitaireCard.solitaireJSON = await getSolitaireJson();
         frontImageElement.setAttribute('src', '../src/themes' + __SolitaireCard.solitaireJSON[suit][rank]);
-        frontDiv.appendChild(frontImageElement);
+        this.frontElement.appendChild(frontImageElement);
 
-        backDiv.dataset.suit = 'hidden';
-        backDiv.dataset.rank = 'hidden';
+        // Edit the back card
+        this.backElement.dataset.suit = 'hidden';
+        this.backElement.dataset.rank = 'hidden';
         backImageElement.setAttribute('alt', `hidden`);
-        if (solitaireJSON === null)
+        if (__SolitaireCard.solitaireJSON === null)
             __SolitaireCard.solitaireJSON = await getSolitaireJson();
         backImageElement.setAttribute('src', '../src/themes' + __SolitaireCard.solitaireJSON['backside']);
-        backDiv.appendChild(backImageElement);
+        this.backElement.appendChild(backImageElement);
 
-        cardElement.appendChild(frontDiv);
-        cardElement.appendChild(backDiv);
-        this.element = cardElement;
-        return this.element;
+        // flip back card to face down, keeping the front face up
+        this.backElement.classList.toggle('flip');
+
+        this.cardElement.appendChild(this.frontElement);
+        this.cardElement.appendChild(this.backElement);
+        return this.cardElement;
     }
 
-    async addCardAsChildToElement(element){
+    flip() {
+        // if the backside card isn't already flipped, it must be flipped
+        // but our createElement will already flip it for us.
+        // this.backElement.classList.toggle('flip');
+
+        // classList access the css, we use .flip (note: doesn't need to have the same class name)
+        if (!this.moved) {
+            this.backElement.classList.toggle("flip");
+            this.frontElement.classList.toggle("flip");
+        }
+    }
+
+    enableFlippingOnClick() {
+        // if the backside card isn't already flipped, it must be flipped
+        // but our createElement will already flip it for us.
+        // this.backElement.classList.toggle('flip');
+        this.cardElement.addEventListener("click", this.flip);
+    }
+
+    disableFlippingOnClick() {
+        this.cardElement.removeEventListener("click", this.flip)
+    }
+
+    addCardAsChildToElement(element) {
         this.element ||= this.createCardElement();
         element.appendChild(this.element);
     }
 
-    flip(){
-        // TODO: monday
-        //  https://www.30secondsofcode.org/css/s/rotating-card
-        //  https://www.w3schools.com/howto/howto_css_flip_card.asp
-        //  https://3dtransforms.desandro.com/card-flip
-        if (this.status === __SolitaireCard.backImageUrl)
-            this.status = `${this.name}`;
-        else
-            this.status = __SolitaireCard.backImageUrl;
+    drag() {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        this.cardElement.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            this.moved = false;
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            this.moved = true;
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
     }
 
-    drag(){
-        //TODO: monday
-        // https://www.w3schools.com/howto/howto_js_draggable.asp
-        // https://codepen.io/mgmarlow/pen/YwJGRe?editors=1010
-        // https://javascript.plainenglish.io/using-javascript-to-create-trello-like-card-re-arrange-and-drag-and-drop-557e60125bb4
-        // https://web.dev/drag-and-drop/
+    enableDragOnMouseClickHold() {
+
     }
 
-    contains(other){
+    disableDragOnMouseClickHold() {
+
+    }
+
+    contains(other) {
         if (other instanceof Card)
             return this.equals(other);
         else {
@@ -171,7 +240,7 @@ class __SolitaireCard extends __Card{
         return false;
     }
 
-    toString(){
+    toString() {
         if (this.status === __SolitaireCard.backImageUrl)
             return `<SolitareCard(${this.status})>`;
         else if (this.suit === 'Hearts' || this.suit === 'Diamonds')
@@ -181,28 +250,28 @@ class __SolitaireCard extends __Card{
         return `<SolitareCard(${this.status})>`;
     }
 
-    repr(){
+    repr() {
         let value = JSON.stringify(this.rank);
         let suit = JSON.stringify(this.suit);
         let status = JSON.stringify(this.status);
         return `<SolitaireCard(value=${value}, suit=${suit}, status=${status})>`;
     }
 
-    equals(other){
+    equals(other) {
         if (typeof other !== typeof this)
             return false;
-        for (const property in this){
+        for (const property in this) {
             if (other[property] !== this[property])
                 return false;
         }
         return true;
     }
 
-    integer_value(){
+    integer_value() {
         let value = this.rank
         if (typeof value === 'string' || value instanceof String)
             value = value.toLowerCase()[0];
-        switch (value){
+        switch (value) {
             case 'a':
                 return 1;
             case 'j':
@@ -216,7 +285,7 @@ class __SolitaireCard extends __Card{
         }
     }
 
-    compare(other){
+    compare(other) {
         // return -1, 0, or 1
         if (typeof other !== typeof this)
             throw new Error(`Can't compare ${other} to ${this}.`);
@@ -234,20 +303,20 @@ class __SolitaireCard extends __Card{
             return 1;
     }
 
-    greaterThan(other){
+    greaterThan(other) {
         return this.compare(other) === 1
     }
 
-    lessThan(other){
+    lessThan(other) {
         return this.compare(other) === -1;
     }
 
-    greaterThanEq(other){
+    greaterThanEq(other) {
         let cmp = this.compare(other)
         return cmp === 1 || cmp === 0;
     }
 
-    lessThanEq(other){
+    lessThanEq(other) {
         let cmp = this.compare(other)
         return cmp === -1 || cmp === 0;
     }
@@ -256,4 +325,4 @@ class __SolitaireCard extends __Card{
 let SolitaireCard = new Proxy(__SolitaireCard, StaticHandler);
 
 
-export { SolitaireCard, __SolitaireCard }
+export {SolitaireCard, __SolitaireCard}
