@@ -92,6 +92,8 @@ class __SolitaireCard extends __Card {
         this.onDragMouseDown = null;
         this.onElementDrag = null;
         this.onStopDragElement = null;
+        this.dragdropstart = null;
+        this.dragdropend = null;
         this.status = __SolitaireCard.backImageUrl;
         this.pos1 = 0;
         this.pos2 = 0;
@@ -140,6 +142,7 @@ class __SolitaireCard extends __Card {
         let backImageElement = document.createElement('img');
 
         // Add meta data
+        this.cardElement.id = `${this.rank}_of_${this.suit}`;
         this.cardElement.setAttribute('class', 'card')
         this.frontElement.setAttribute('class', 'card-side front');
         this.backElement.setAttribute('class', 'card-side back');
@@ -246,6 +249,58 @@ class __SolitaireCard extends __Card {
 
     disableDragOnMouseClickHold() {
         this.cardElement.onmousedown = null;
+    }
+
+    enableDragDrop(...ontoElements){
+        ontoElements.forEach(elem => {
+            elem.ondrop = this.getsDrop;
+            elem.ondragover = this.givesDrop;
+        });
+
+        this.cardElement.draggable = true;
+        this.dragdropstart = this.dragDropStart.bind(this);
+        this.cardElement.ondragstart = this.dragdropstart;
+
+        this.dragdropend = this.dragDropEnd.bind(this);
+        this.cardElement.ondragend = this.dragdropend;
+    }
+
+    disableDragDrop(){
+        this.cardElement.draggable = false;
+        this.dragdropstart = null;
+        this.cardElement.ondragstart = null;
+
+        this.dragdropend = null;
+        this.cardElement.ondragend = null;
+    }
+
+    givesDrop(event){
+        // needs to be static method
+        console.debug("Started givesDrop");
+        event.preventDefault();
+    }
+
+    getsDrop(event){
+        // needs to be static method
+        event.preventDefault();
+        console.debug("Started getsDrop");
+        console.debug(`event.target.id = ${event.target.id}`);
+        console.debug(`event.currentTarget.id = ${event.currentTarget.id}`);
+        let data = event.dataTransfer.getData("Text");
+        event.target.appendChild(document.getElementById(data));
+    }
+
+    dragDropStart(event){
+        console.debug("started to drag the element")
+        console.debug(`event.target.id = ${event.target.id}`);
+        console.debug(`event.currentTarget.id = ${event.currentTarget.id}`);
+
+        // transferring the id of the element (aka, this.cardElement.id)
+        event.dataTransfer.setData("Text", event.currentTarget.id);
+    }
+
+    dragDropEnd(){
+        // nothing
     }
 
     contains(other) {

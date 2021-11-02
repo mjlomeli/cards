@@ -23,7 +23,7 @@ of concept.
 
 ### In Cards, users will be able to:
 
-* Drag and drop
+* Drag and drop_test
 * Card selection
 * Reset game
 * Visualize score
