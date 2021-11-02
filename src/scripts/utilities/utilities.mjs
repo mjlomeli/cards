@@ -95,5 +95,3 @@ function openJson(path) {
 
 
 export {isNodeJs, isBrowser, product, cwd, projectDirectory, openJson};
-
-

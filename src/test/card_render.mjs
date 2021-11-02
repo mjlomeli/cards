@@ -118,8 +118,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.body.append(div)
     }
      */
-    let card = await createCard('hearts', 'queen');
-    //let card = await new SolitaireCard('hearts', 'queen');
-    div.appendChild(card);
+    //let card = await createCard('hearts', 'queen');
+    let card = new SolitaireCard('hearts', 'queen');
+    await card.build();
+    div.appendChild(card.cardElement);
     document.body.append(div)
 });

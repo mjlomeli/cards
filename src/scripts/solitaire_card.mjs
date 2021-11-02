@@ -82,21 +82,29 @@ class __SolitaireCard extends __Card {
 
     constructor(suit, rank, frontImageUrl = null) {
         super(`${rank} of ${suit}`, frontImageUrl);
-        if (solitaireJSON === null)
-            __SolitaireCard.solitaireJSON = getSolitaireJson();
         this.rank = rank;
         this.suit = suit;
         this.cardElement = null
         this.frontElement = null;
         this.backElement = null;
         this.moved = false;
+        this.onClick = null;
+        this.onDragMouseDown = null;
+        this.onElementDrag = null;
+        this.onStopDragElement = null;
         this.status = __SolitaireCard.backImageUrl;
+        this.pos1 = 0;
+        this.pos2 = 0;
+        this.pos3 = 0;
+        this.pos4 = 0;
         //return new Proxy(this, InstanceHandler);
     }
 
     async build() {
         // all async elements should be defined here
-        await createCardElement();
+        if (__SolitaireCard.solitaireJSON === null)
+            __SolitaireCard.solitaireJSON = await this.getSolitaireJson();
+        await this.createCardElement();
     }
 
     getSolitaireJson() {
@@ -115,6 +123,14 @@ class __SolitaireCard extends __Card {
         return {};
     }
 
+
+    __createBackSide(){
+
+    }
+
+    __createSide(){
+    }
+
     async createCardElement() {
         // Create the parts of the card
         this.cardElement = document.createElement('div');
@@ -129,12 +145,12 @@ class __SolitaireCard extends __Card {
         this.backElement.setAttribute('class', 'card-side back');
 
         // Edit front card
-        this.frontElement.dataset.suit = suit;
-        this.frontElement.dataset.rank = rank;
-        frontImageElement.setAttribute('alt', `${rank} of ${suit}`);
+        this.frontElement.dataset.suit = this.suit;
+        this.frontElement.dataset.rank = this.rank;
+        frontImageElement.setAttribute('alt', `${this.rank} of ${this.suit}`);
         if (__SolitaireCard.solitaireJSON === null)
-            __SolitaireCard.solitaireJSON = await getSolitaireJson();
-        frontImageElement.setAttribute('src', '../src/themes' + __SolitaireCard.solitaireJSON[suit][rank]);
+            __SolitaireCard.solitaireJSON = await this.getSolitaireJson();
+        frontImageElement.setAttribute('src', '../src/themes' + __SolitaireCard.solitaireJSON[this.suit][this.rank]);
         this.frontElement.appendChild(frontImageElement);
 
         // Edit the back card
@@ -142,7 +158,7 @@ class __SolitaireCard extends __Card {
         this.backElement.dataset.rank = 'hidden';
         backImageElement.setAttribute('alt', `hidden`);
         if (__SolitaireCard.solitaireJSON === null)
-            __SolitaireCard.solitaireJSON = await getSolitaireJson();
+            __SolitaireCard.solitaireJSON = await this.getSolitaireJson();
         backImageElement.setAttribute('src', '../src/themes' + __SolitaireCard.solitaireJSON['backside']);
         this.backElement.appendChild(backImageElement);
 
@@ -151,7 +167,6 @@ class __SolitaireCard extends __Card {
 
         this.cardElement.appendChild(this.frontElement);
         this.cardElement.appendChild(this.backElement);
-        return this.cardElement;
     }
 
     flip() {
@@ -170,11 +185,14 @@ class __SolitaireCard extends __Card {
         // if the backside card isn't already flipped, it must be flipped
         // but our createElement will already flip it for us.
         // this.backElement.classList.toggle('flip');
-        this.cardElement.addEventListener("click", this.flip);
+
+        //save the bounded function to be able to remove the event listener later.
+        this.onClick = this.flip.bind(this);
+        this.cardElement.addEventListener("click", this.onClick);
     }
 
     disableFlippingOnClick() {
-        this.cardElement.removeEventListener("click", this.flip)
+        this.cardElement.removeEventListener("click", this.onClick)
     }
 
     addCardAsChildToElement(element) {
@@ -182,50 +200,52 @@ class __SolitaireCard extends __Card {
         element.appendChild(this.element);
     }
 
-    drag() {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        this.cardElement.onmousedown = dragMouseDown;
-
-        function dragMouseDown(e) {
-            this.moved = false;
-            e = e || window.event;
-            e.preventDefault();
-            // get the mouse cursor position at startup:
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-
-            document.onmouseup = closeDragElement;
-            // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-            this.moved = true;
-            e = e || window.event;
-            e.preventDefault();
-            // calculate the new cursor position:
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            // set the element's new position:
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-            // stop moving when mouse button is released:
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
 
     enableDragOnMouseClickHold() {
+        this.onDragMouseDown = this.dragMouseDown.bind(this);
+        this.cardElement.onmousedown = this.onDragMouseDown;
+    }
 
+
+
+    elementDrag(e) {
+        this.moved = true;
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        this.pos1 = this.pos3 - e.clientX;
+        this.pos2 = this.pos4 - e.clientY;
+        this.pos3 = e.clientX;
+        this.pos4 = e.clientY;
+        // set the element's new position:
+        //TODO: ask why I don't have access to this.cardElement in this scope
+        this.cardElement.style.top = (this.cardElement.offsetTop - this.pos2) + "px";
+        this.cardElement.style.left = (this.cardElement.offsetLeft - this.pos1) + "px";
+    }
+
+    dragMouseDown(e) {
+        this.moved = false;
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        this.pos3 = e.clientX;
+        this.pos4 = e.clientY;
+
+        this.onElementDrag = this.elementDrag.bind(this);
+        this.onStopDragElement = this.closeDragElement.bind(this);
+        document.onmouseup = this.onStopDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = this.onElementDrag;
+    }
+
+    closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
     }
 
     disableDragOnMouseClickHold() {
-
+        this.cardElement.onmousedown = null;
     }
 
     contains(other) {
@@ -326,3 +346,5 @@ let SolitaireCard = new Proxy(__SolitaireCard, StaticHandler);
 
 
 export {SolitaireCard, __SolitaireCard}
+
+

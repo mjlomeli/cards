@@ -26,18 +26,6 @@
 }
 
 
-/*
-.card:hover .card-side.front {
-    transform: rotateY(180deg);
-}
-
-.card:hover .card-side.back {
-    transform: rotateY(0deg);
-}
-
- */
-
-
 .flip {
     transform: rotateY(180deg);
 }

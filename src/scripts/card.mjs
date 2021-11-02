@@ -74,7 +74,7 @@ class __Card {
     constructor(name, frontImageUrl=null){
         this.name = name;
         this.frontImageUrl = frontImageUrl;
-        return new Proxy(this, InstanceHandler);
+        //return new Proxy(this, InstanceHandler);
     }
 
     contains(other){
