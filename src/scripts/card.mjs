@@ -1,80 +1,203 @@
+import {isBrowser, isNodeJs, openJson, projectDirectory} from "./utilities/utilities.mjs";
 
-const StaticHandler = {
-    // Traps the 'new' operator and runs before running the constructor
-    construct(target, args) {
-        let str_args = args.map(value => JSON.stringify(value)).join("\x1b[36m, \x1b[0m")
-        console.debug(`\x1b[36mnew ${target.name.replace("__", "")}(\x1b[0m${str_args}\x1b[36m)\x1b[0m`);
-        function invariant(args, action) {
-            // raise an error if invalid arguments
-            let err_args = args.map(value => JSON.stringify(value)).join(", ")
-            if (args.length === 0 || args.length > 3)
-                throw new Error(`\x1b[31mInvalid arguments: Card(${err_args})\x1b[0m`);
-        }
-        //invariant(args, 'arguments');
-        
-        return new target(...args);
-    }
-};
-
-const InstanceHandler = {
-    // traps the 'delete' operator
-    deleteProperty(target, prop) {
-        console.debug(`\x1b[36m${target.constructor.name}.deleteProperty(\x1b[0m${prop}\x1b[36m)\x1b[0m`);
-        if (prop in target) {
-            delete target[prop];
-            console.debug(`\x1b[36m  ⤷ Deleted property: \x1b[32m${prop}\x1b[0m`);
-        }
-    },
-
-    get: function (target, prop, receiver) {
-        let str_prop = prop.toString()
-        console.debug(`\x1b[36m${target.constructor.name}.get(\x1b[0m${str_prop}\x1b[36m)\x1b[0m`);
-        let gotten = Reflect.get(...arguments);
-        console.debug(`\x1b[36m  ⤷ returned: \x1b[32m${JSON.stringify(gotten)}\x1b[0m`);
-        return gotten
-    },
-
-    // traps the '.' operator when assigning a class's property/attribute
-    set(obj, prop, value) {
-        let str_val = JSON.stringify(value);
-        let str_prop = JSON.stringify(prop)
-        console.debug(`\x1b[36m${obj.constructor.name}.\x1b[0m${str_prop}\x1b[36m = \x1b[0m${str_val}\x1b[36m;\x1b[0m`);
-        let set_result = Reflect.set(...arguments);
-        console.debug(`\x1b[36m  ⤷ ${prop} set to: \x1b[32m${str_val}\x1b[0m`);
-        return set_result;
-    },
-
-    // Traps the 'in' operator
-    has(target, key) {
-        console.debug(`\x1b[0m${JSON.stringify(key)}\x1b[36m in \x1b[0m${target.constructor.name}\x1b[0m`);
-        let found = key in target;
-        let nameFound = key === target.name;
-        console.debug(`\x1b[36m  ⤷ returned: \x1b[32m${JSON.stringify(found)}\x1b[0m`);
-        return found || nameFound;
-    },
-
-    // traps the defineProperty which runs before creating a new property
-    defineProperty(target, key, descriptor) {
-        let val = JSON.stringify(descriptor);
-        console.debug(`\x1b[36m  ⤷ Defining: ${target.constructor.name}\x1b[36m.\x1b[0m${key}\x1b[36m = \x1b[0m${val}`);
-
-        function invariant(key, action) {
-            // raise an error if property name has a '_' before the name
-            if (key[0] === '_') throw new Error(`Invalid property ${action} starting with '_'`);
-        }
-
-        // example
-        //invariant(key, 'definition');
-        return Reflect.defineProperty(...arguments);
-    }
-};
-
-
-class __Card {
-    constructor(name, frontImageUrl=null){
-        this.name = name;
+class Card {
+    constructor(frontImageUrl=null, backImageUrl=null){
         this.frontImageUrl = frontImageUrl;
-        //return new Proxy(this, InstanceHandler);
+        this.backImageUrl = backImageUrl;
+
+        this.rootElement = null
+        this.frontElement = null;
+        this.frontImageElement = null;
+        this.backElement = null;
+        this.backImageElement = null;
+
+        this.moved = false;
+        this.onClick = null;
+        this.onDragMouseDown = null;
+        this.onElementDrag = null;
+        this.onStopDragElement = null;
+        this.dragdropstart = null;
+        this.dragdropend = null;
+
+        this.pos1 = 0;
+        this.pos2 = 0;
+        this.pos3 = 0;
+        this.pos4 = 0;
+    }
+
+    buildCard() {
+        // all async elements should be defined here
+        this.createCardElement();
+    }
+
+    createFrontElement(){
+        // Create the parts of the card
+        this.frontElement = document.createElement('div');
+        this.frontImageElement = document.createElement('img');
+        this.frontElement.appendChild(this.frontImageElement);
+        
+        // Add data
+        this.frontElement.setAttribute('class', 'card-side front');
+        this.frontImageElement.setAttribute('src', this.frontImageUrl);
+        
+        return this.frontElement;
+    }
+    
+    createBackElement() {
+        // Create the parts of the card
+        this.backElement = document.createElement('div');
+        this.backImageElement = document.createElement('img');
+        this.backElement.appendChild(this.backImageElement);
+
+        // Add data
+        this.backElement.setAttribute('class', 'card-side back');
+        this.backImageElement.setAttribute('src', this.backImageUrl);
+
+        // flip back card to face down, keeping the front face up
+        this.backElement.classList.toggle('flip');
+        
+        return this.backElement;
+    }
+
+    createCardElement() {
+        // Create the parts of the card
+        this.rootElement = document.createElement('div');
+
+        // Add meta data
+        this.rootElement.setAttribute('class', 'card')
+
+        this.rootElement.appendChild(this.createFrontElement());
+        this.rootElement.appendChild(this.createBackElement());
+    }
+
+    flip() {
+        // if the backside card isn't already flipped, it must be flipped
+        // but our createElement will already flip it for us.
+        // this.backElement.classList.toggle('flip');
+
+        // classList access the css, we use .flip (note: doesn't need to have the same class name)
+        if (!this.moved) {
+            this.backElement.classList.toggle("flip");
+            this.frontElement.classList.toggle("flip");
+        }
+    }
+
+    enableFlippingOnClick() {
+        // if the backside card isn't already flipped, it must be flipped
+        // but our createElement will already flip it for us.
+        // this.backElement.classList.toggle('flip');
+
+        //save the bounded function to be able to remove the event listener later.
+        this.onClick = this.flip.bind(this);
+        this.rootElement.addEventListener("click", this.onClick);
+    }
+
+    disableFlippingOnClick() {
+        this.rootElement.removeEventListener("click", this.onClick)
+    }
+
+    addCardAsChildToElement(element) {
+        this.element ||= this.createCardElement();
+        element.appendChild(this.element);
+    }
+
+
+    enableDragOnMouseClickHold() {
+        this.onDragMouseDown = this.dragMouseDown.bind(this);
+        this.rootElement.onmousedown = this.onDragMouseDown;
+    }
+
+
+    elementDrag(e) {
+        this.moved = true;
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        this.pos1 = this.pos3 - e.clientX;
+        this.pos2 = this.pos4 - e.clientY;
+        this.pos3 = e.clientX;
+        this.pos4 = e.clientY;
+        // set the element's new position:
+        //TODO: ask why I don't have access to this.rootElement in this scope
+        this.rootElement.style.top = (this.rootElement.offsetTop - this.pos2) + "px";
+        this.rootElement.style.left = (this.rootElement.offsetLeft - this.pos1) + "px";
+    }
+
+    dragMouseDown(e) {
+        this.moved = false;
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        this.pos3 = e.clientX;
+        this.pos4 = e.clientY;
+
+        this.onElementDrag = this.elementDrag.bind(this);
+        this.onStopDragElement = this.closeDragElement.bind(this);
+        document.onmouseup = this.onStopDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = this.onElementDrag;
+    }
+
+    closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+
+    disableDragOnMouseClickHold() {
+        this.rootElement.onmousedown = null;
+    }
+
+    enableDragDrop(...ontoElements){
+        ontoElements.forEach(elem => {
+            elem.ondrop = this.getsDrop;
+            elem.ondragover = this.givesDrop;
+        });
+
+        this.rootElement.draggable = true;
+        this.dragdropstart = this.dragDropStart.bind(this);
+        this.rootElement.ondragstart = this.dragdropstart;
+
+        this.dragdropend = this.dragDropEnd.bind(this);
+        this.rootElement.ondragend = this.dragdropend;
+    }
+
+    disableDragDrop(){
+        this.rootElement.draggable = false;
+        this.dragdropstart = null;
+        this.rootElement.ondragstart = null;
+
+        this.dragdropend = null;
+        this.rootElement.ondragend = null;
+    }
+
+    givesDrop(event){
+        // needs to be static method
+        console.debug("Started givesDrop");
+        event.preventDefault();
+    }
+
+    getsDrop(event){
+        // needs to be static method
+        event.preventDefault();
+        console.debug("Started getsDrop");
+        console.debug(`event.target.id = ${event.target.id}`);
+        console.debug(`event.currentTarget.id = ${event.currentTarget.id}`);
+        let data = event.dataTransfer.getData("Text");
+        event.target.appendChild(document.getElementById(data));
+    }
+
+    dragDropStart(event){
+        console.debug("started to drag the element")
+        console.debug(`event.target.id = ${event.target.id}`);
+        console.debug(`event.currentTarget.id = ${event.currentTarget.id}`);
+
+        // transferring the id of the element (aka, this.rootElement.id)
+        event.dataTransfer.setData("Text", event.currentTarget.id);
+    }
+
+    dragDropEnd(){
+        // nothing
     }
 
     contains(other){
@@ -90,13 +213,13 @@ class __Card {
     }
 
     toString(){
-        return `<Card(${JSON.stringify(this.name)})>`;
+        return this.repr();
     }
 
     repr(){
-        let name = JSON.stringify(this.name);
         let frontImageUrl = JSON.stringify(this.frontImageUrl);
-        return `<Card(name=${name}, frontImageUrl=${frontImageUrl})>`;
+        let backImageUrl = JSON.stringify(this.backImageUrl);
+        return `<Card(frontImageUrl=${frontImageUrl}, backImageUrl=${backImageUrl})>`;
     }
 
     equals(other){
@@ -110,7 +233,4 @@ class __Card {
     }
 }
 
-
-let Card = new Proxy(__Card, StaticHandler);
-
-export { Card, __Card }
+export { Card }
