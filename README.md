@@ -1,5 +1,4 @@
 [![mjlomeli - cards](https://img.shields.io/static/v1?label=mjlomeli&message=cards&color=blue&logo=github)](https://github.com/mjlomeli/cards)
-[![Made with PostgreSQL](https://img.shields.io/badge/PostgreSQL-13-blue?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 [![issues - cards](https://img.shields.io/github/issues/mjlomeli/cards)](https://github.com/mjlomeli/cards/issues)
 <div align="left">
