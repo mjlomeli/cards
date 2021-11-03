@@ -26,24 +26,28 @@ class Card {
     }
 
     buildCard() {
-        // all async elements should be defined here
         this.createCardElement();
     }
 
     createFrontElement(){
+        if (this.frontImageUrl === null)
+            throw new Error("No image url provided. Can't build the Card.")
+
         // Create the parts of the card
         this.frontElement = document.createElement('div');
         this.frontImageElement = document.createElement('img');
         this.frontElement.appendChild(this.frontImageElement);
-        
+
         // Add data
         this.frontElement.setAttribute('class', 'card-side front');
         this.frontImageElement.setAttribute('src', this.frontImageUrl);
-        
         return this.frontElement;
     }
     
     createBackElement() {
+        if (this.backImageUrl === null)
+            throw new Error("No image url provided. Can't build the Card.")
+
         // Create the parts of the card
         this.backElement = document.createElement('div');
         this.backImageElement = document.createElement('img');

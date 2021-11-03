@@ -11,30 +11,27 @@ class SolitaireCard extends Card {
         this.suit = suit;
     }
 
+    static async getSolitaireJson() {
+        /*
+            Must use keyword 'await' to use this.
+            Ex:
+                let deckIndex = await getSolitaireJson();
+         */
+        if (SolitaireCard.solitaireJSON === null) {
+            let path = projectDirectory('cards') + '/src/themes/solitaire/index.json';
+            SolitaireCard.solitaireJSON = await openJson(path)
+        }
+        return SolitaireCard.solitaireJSON;
+    }
+
     async buildSolitaire() {
         // all async elements should be defined here
         if (SolitaireCard.solitaireJSON === null)
-            SolitaireCard.solitaireJSON = await this.getSolitaireJson();
+            SolitaireCard.solitaireJSON = await SolitaireCard.getSolitaireJson();
         this.frontImageUrl = '../src/themes' + SolitaireCard.solitaireJSON[this.suit][this.rank];
         this.backImageUrl = '../src/themes' + SolitaireCard.solitaireJSON["backside"];
         super.buildCard();
         this.createElement();
-    }
-
-    getSolitaireJson() {
-        /*
-            Must use keyword 'await' to use this.
-            Ex:
-                let deckIndex = await locateIndexJson();
-         */
-        let path = projectDirectory('cards') + '/src/themes/solitaire/index.json';
-        if (isNodeJs()) {
-            return openJson(path)
-        } else if (isBrowser()) {
-            // openJson returns a promise so await must be added to the caller.
-            return openJson(path)
-        }
-        return {};
     }
 
     createElement() {
