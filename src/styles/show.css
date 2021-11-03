@@ -1,0 +1,16 @@
+body {
+    background-color: #076739;
+    font-family: sans-serif;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+}
+
+.grid-item {
+    padding: 70px;
+    font-size: 100px;
+    text-align: center;
+}

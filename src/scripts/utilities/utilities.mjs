@@ -94,4 +94,39 @@ function openJson(path) {
 }
 
 
-export {isNodeJs, isBrowser, product, cwd, projectDirectory, openJson};
+
+
+class debug {
+    static func(name, string){
+        if (isNodeJs())
+            console.debug(`\x1b[37;45;1m   FUNC  \x1b[0m \x1b[35m${name}: ${string}\x1b[0m`);
+        if (isBrowser())
+            console.debug(`%c  FUNC  ` + `%c ${name}: ${string}`, "background:blue;color:white", "color:black");
+    }
+
+    static log(string){
+        if (isNodeJs())
+            console.debug(`\x1b[1;47;1m   LOG   \x1b[0m \x1b[37m${string}\x1b[0m`);
+        else if (isBrowser())
+            console.debug(`%c   LOG  ` + `%c ${string}`, "background:gray;color:white", "color:black");
+    }
+
+    static condition(condition, string){
+        if (isNodeJs())
+            console.debug(`\x1b[37;44;1m   ${condition.toUpperCase()}   \x1b[0m \x1b[34m${string}\x1b[0m`);
+        else if (isBrowser())
+            console.debug("%c  COND  " + `%c ${condition} (` + `%c${string}` + `%c)` + "%c => true", `background:purple;color:white`, `color:purple`, "color:black", `color:purple`, "color: black");
+
+    }
+
+    static data(name, string){
+        if (isNodeJs())
+            console.debug(`\x1b[37;42;1m   DATA   \x1b[0m \x1b[32m${name}=> ${string}\x1b[0m`);
+        else if (isBrowser())
+            console.debug(`%c  DATA  ` + `%c ${name} = ` + `%c${JSON.stringify(string)}`, "background:green;color:white", "color:green", "color:black");
+    }
+
+}
+
+
+export {isNodeJs, isBrowser, product, cwd, projectDirectory, openJson, debug};

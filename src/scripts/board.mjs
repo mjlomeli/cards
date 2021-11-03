@@ -8,7 +8,7 @@ import {Card} from "./card.mjs";
 class Board {
     constructor(...gridTemplateAreas){
         this.gridAreasStyle = gridTemplateAreas;
-        this.index = {}
+        this.elementIndex = {}
         this.areas = [];
         this.deckIndex = {};
 
@@ -27,7 +27,7 @@ class Board {
             row.split(" ").forEach(set.add, set)
         });
         this.areas = Array.from(set);
-        this.areas.forEach(key => this.index[key] = null);
+        this.areas.forEach(key => this.elementIndex[key] = null);
         this.areas.forEach(key => this.deckIndex[key] = new Deck());
     }
 
@@ -42,14 +42,14 @@ class Board {
             div.className = "grid-item";
             div.style = `grid-area: ${area}`;
             div.id = `${area}`;
-            this.index[area] = div;
+            this.elementIndex[area] = div;
             this.rootElement.appendChild(div);
         });
 
     }
 
     enableDrop(area){
-        Card.enableGetsDrop(area, this.index[area]);
+        Card.enableGetsDrop(area, this.elementIndex[area]);
     }
 
     disableDrop(area){

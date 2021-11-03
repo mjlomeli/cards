@@ -1,4 +1,4 @@
-import {isBrowser, isNodeJs, openJson, projectDirectory} from "./utilities/utilities.mjs";
+import {debug, isBrowser, isNodeJs, openJson, projectDirectory} from "./utilities/utilities.mjs";
 
 class Card {
     static dropReceivers = {};
@@ -70,6 +70,7 @@ class Card {
 
         // Add meta data
         this.rootElement.setAttribute('class', 'card')
+        this.rootElement.dataset.visible = "true";
 
         this.rootElement.appendChild(this.createFrontElement());
         this.rootElement.appendChild(this.createBackElement());
@@ -82,9 +83,30 @@ class Card {
 
         // classList access the css, we use .flip (note: doesn't need to have the same class name)
         if (!this.moved) {
+            this.rootElement.dataset.visible = (this.rootElement.dataset.visible === "true") ? "false" : "true";
             this.backElement.classList.toggle("flip");
             this.frontElement.classList.toggle("flip");
         }
+    }
+
+    flipUp(){
+        if (this.rootElement.dataset.visible === "false") {
+            this.backElement.classList.toggle("flip");
+            this.frontElement.classList.toggle("flip");
+            this.rootElement.dataset.visible = "true";
+        }
+    }
+
+    flipDown(){
+        if (this.rootElement.dataset.visible === "true") {
+            this.backElement.classList.toggle("flip");
+            this.frontElement.classList.toggle("flip");
+            this.rootElement.dataset.visible = "false";
+        }
+    }
+
+    isVisible(){
+        return this.rootElement.dataset.visible === "true";
     }
 
     enableFlippingOnClick() {
@@ -181,13 +203,14 @@ class Card {
 
     static givesDrop(event){
         // needs to be static method
-        console.debug("Started givesDrop");
+        debug.func("givesDrop", "started");
         event.preventDefault();
+        debug.func("givesDrop", "finished");
     }
 
     static getsDrop(event){
         // needs to be static method
-        console.debug("Started getsDrop");
+        debug.func("getsDrop", "started");
         event.preventDefault();
 
         let currentTargetId = event.currentTarget.id;
@@ -203,21 +226,24 @@ class Card {
         if (data === '' || data === undefined)
             throw new Error("Draggable object must have an id");
         event.target.appendChild(document.getElementById(data));
+        debug.func("getsDrop", "finished");
     }
 
     dragDropStart(event){
-        console.debug("started to drag the element")
+        debug.func("dragDropStart", "started");
         let currentTargetId = event.currentTarget.id;
         let targetId = event.target.id;
 
-        console.debug(`event.target.id = ${targetId}`);
-        console.debug(`event.currentTarget.id = ${currentTargetId}`);
+        debug.log(`started to drag the ${currentTargetId}`)
+        //debug.log(`event.target.id = ${targetId}`);
+        //debug.log(`event.currentTarget.id = ${currentTargetId}`);
 
         if (currentTargetId === '' || currentTargetId === undefined)
             throw new Error("Current target must have an id");
 
         // transferring the id of the element (aka, this.rootElement.id)
         event.dataTransfer.setData("Text", event.currentTarget.id);
+        debug.func("dragDropStart", "finished");
     }
 
     dragDropEnd(){
