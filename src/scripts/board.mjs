@@ -4,25 +4,54 @@
  */
 
 class Board {
-    constructor(rows, columns){
-        this.tableauSize = 7;
-        this.foundationSize = 4;
-        this.tableau = Array.from(Array(this.tableauSize), () => Array(3).fill(0));
-        this.foundations = Array.from(Array(this.foundationSize), () => Array(3).fill(0));
-        this.stock = []; // the face down deck
-        this.talon = []; // drawn the face up cards
+    constructor(...gridTemplateAreas){
+        this.gridAreasStyle = gridTemplateAreas;
+        this.index = {}
+        this.areas = [];
+
+        this.rootElement = null;
+
     }
 
-    async build(){
+    buildBoard(){
+        this.filter();
+        this.createGridContainer()
     }
 
-    getElement(row, column){
-        return this.grid[row][column]
+    filter(){
+        let set = new Set();
+        this.gridAreasStyle.forEach(row => {
+            row.split(" ").forEach(set.add, set)
+        });
+        this.areas = Array.from(set);
+        this.areas.forEach(key => this.index[key] = null);
     }
 
-    pushElement(row, column, element){
+    createGridContainer(){
+        this.rootElement = document.createElement('div');
+        this.rootElement.className = "grid-container";
+        let style = this.gridAreasStyle.map(r =>`'${r}'`);
+        this.rootElement.style = `grid-template-areas:${style.join(' ')}`;
+
+        this.areas.forEach(area => {
+            let div = document.createElement('div');
+            div.className = "grid-item";
+            div.style = `grid-area: ${area}`;
+            div.id = `${area}`;
+            this.index[area] = div;
+            this.rootElement.appendChild(div);
+        });
+
+    }
+
+    enableDrop(area){
+
+    }
+
+    disableDrop(area){
+
     }
 }
 
 
-export default Board
+export {Board}
