@@ -12,7 +12,8 @@
     "ace": "/solitaire/diamonds/ace_of_diamonds.svg",
     "jack": "/solitaire/diamonds/jack_of_diamonds.svg",
     "king": "/solitaire/diamonds/king_of_diamonds.svg",
-    "queen": "/solitaire/diamonds/queen_of_diamonds.svg"
+    "queen": "/solitaire/diamonds/queen_of_diamonds.svg",
+    "foundation": "/solitaire/diamonds.svg"
   },
   "hearts": {
     "2": "/solitaire/hearts/2_of_hearts.svg",
@@ -27,7 +28,8 @@
     "ace": "/solitaire/hearts/ace_of_hearts.svg",
     "jack": "/solitaire/hearts/jack_of_hearts.svg",
     "king": "/solitaire/hearts/king_of_hearts.svg",
-    "queen": "/solitaire/hearts/queen_of_hearts.svg"
+    "queen": "/solitaire/hearts/queen_of_hearts.svg",
+    "foundation": "/solitaire/hearts.svg"
   },
   "clubs": {
     "2": "/solitaire/clubs/2_of_clubs.svg",
@@ -42,7 +44,8 @@
     "ace": "/solitaire/clubs/ace_of_clubs.svg",
     "jack": "/solitaire/clubs/jack_of_clubs.svg",
     "king": "/solitaire/clubs/king_of_clubs.svg",
-    "queen": "/solitaire/clubs/queen_of_clubs.svg"
+    "queen": "/solitaire/clubs/queen_of_clubs.svg",
+    "foundation": "/solitaire/clubs.svg"
   },
   "spades": {
     "2": "/solitaire/spades/2_of_spades.svg",
@@ -57,7 +60,9 @@
     "ace": "/solitaire/spades/ace_of_spades.svg",
     "jack": "/solitaire/spades/jack_of_spades.svg",
     "king": "/solitaire/spades/king_of_spades.svg",
-    "queen": "/solitaire/spades/queen_of_spades.svg"
+    "queen": "/solitaire/spades/queen_of_spades.svg",
+    "foundation": "/solitaire/spades.svg"
   },
-  "backside": "/solitaire/backside.svg"
+  "backside": "/solitaire/backside.svg",
+  "empty": "/solitaire/empty.svg"
 }

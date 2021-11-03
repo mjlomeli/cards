@@ -4,8 +4,8 @@
     position: absolute;
     text-align: center;
     perspective: 150rem;
-    width: 7em; /* width and height must be equal */
-    height: 7em; /* width and height must be equal */
+    width: 1em; /* width and height must be equal */
+    height: 1em; /* width and height must be equal */
     background: none;
     box-shadow: none;
     cursor: grab;

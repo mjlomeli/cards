@@ -10,69 +10,116 @@ import {Deck} from "./deck.mjs";
 import {Board} from "./board.mjs";
 
 class SolitaireBoard {
+    static solitaireJSON = null;
     constructor() {
         this.board = null;
         this.rootElement = null;
 
         this.tableauCount = 7;
         this.tableauLength = 13;
-        this.tableau = null;
-        this.tableuElement = null;
+        this.tableau = null;    // 7 stacks to place into
+        this.tableauElement = null;
 
         this.foundationCount = 4;
-        this.foundations = null;
+        this.foundations = null; // finished cards
 
         this.stock = null; // the face down deck
         this.stockCard = null;
         this.stockElement = null;
 
-        this.talon = new Deck(); // drawn the face up cards
+        this.talon = null; // the face up drawn cards
+        this.talonCard = null;
+        this.talonElement = null;
     }
 
-    async buildBoard() {
+    async buildSolitaireBoard() {
         this.board = new Board('stock talon hearts clubs diamonds spades',
-            'tableu tableu tableu tableu tableu tableu');
+            'tableau tableau tableau tableau tableau tableau');
         this.board.buildBoard();
+        this.rootElement = this.board.rootElement;
 
-        this.tableau = new Board('tableu1 tableu2 tableu3 tableu4 tableu5 tableu6 tableu7');
-        this.tableau.buildBoard();
-        this.tableuElement = this.tableau.rootElement;
-        this.board.index['tableu'] = this.tableu.index;
+        SolitaireBoard.solitaireJSON = await SolitaireCard.getSolitaireJson()
 
         this.createTableau();
         this.createFoundations();
-        await this.createStock();
+        this.createStock();
         this.createTalon();
     }
 
     createTableau() {
-        let tab = this.board.index['tableu'];
+        this.tableau = new Board('tableau1 tableau2 tableau3 tableau4 tableau5 tableau6 tableau7');
+        this.tableau.buildBoard();
+        this.tableauElement = this.tableau.rootElement;
+        this.board.index['tableau'].appendChild(this.tableauElement);
+
         // add blank cards
-        tab.areas.forEach((t, i) => {
-           tab.index[t].textContent = `tableu${i}`
+        this.tableau.areas.forEach((t, i) => {
+            let card = new Card(
+                '../src/themes' + SolitaireBoard.solitaireJSON['empty'],
+                '../src/themes' + SolitaireBoard.solitaireJSON['empty']);
+            card.buildCard();
+
+            this.tableau.index[t].appendChild(card.rootElement);
         });
     }
 
     createFoundations() {
-        // add blank cards to each for visual placement
-        this.board.index['hearts'].textContent = "hearts";
-        this.board.index['spades'].textContent = "spades";
-        this.board.index['diamonds'].textContent = "diamonds";
-        this.board.index['clubs'].textContent = "clubs";
+        // hearts blank card
+        let hearts = new Card(
+            '../src/themes' + SolitaireBoard.solitaireJSON['hearts']['foundation'],
+            '../src/themes' + SolitaireBoard.solitaireJSON['hearts']['foundation']);
+        hearts.buildCard();
+        this.board.index['hearts'].appendChild(hearts.rootElement);
+
+        // spades blank card
+        let spades = new Card(
+            '../src/themes' + SolitaireBoard.solitaireJSON['spades']['foundation'],
+            '../src/themes' + SolitaireBoard.solitaireJSON['spades']['foundation']);
+        spades.buildCard();
+        this.board.index['spades'].appendChild(spades.rootElement);
+
+        // diamonds blank card
+        let diamonds = new Card(
+            '../src/themes' + SolitaireBoard.solitaireJSON['diamonds']['foundation'],
+            '../src/themes' + SolitaireBoard.solitaireJSON['diamonds']['foundation']);
+        diamonds.buildCard();
+        this.board.index['diamonds'].appendChild(diamonds.rootElement);
+
+        // clubs blank card
+        let clubs = new Card(
+            '../src/themes' + SolitaireBoard.solitaireJSON['clubs']['foundation'],
+            '../src/themes' + SolitaireBoard.solitaireJSON['clubs']['foundation']);
+        clubs.buildCard();
+        this.board.index['clubs'].appendChild(clubs.rootElement);
+
+        this.foundations = {'hearts': hearts, 'spades': spades, 'diamonds': diamonds, 'clubs': clubs};
     }
 
-    async createStock(){
+    createStock(){
         this.stock = new SolitaireDeck();
         this.stock.shuffle();
 
-        let json = await SolitaireCard.getSolitaireJson();
-        this.stockCard = new Card(json['backside'], json['backside']);
+        this.stockCard = new Card(
+            '../src/themes' + SolitaireBoard.solitaireJSON['backside'],
+            '../src/themes' + SolitaireBoard.solitaireJSON['backside']);
         this.stockCard.buildCard();
         this.stockElement = this.stockCard.rootElement;
 
-        this.board['stock'].append(this.stockElement);
+        this.board.index['stock'].appendChild(this.stockElement);
+    }
+
+    createTalon(){
+        this.talon = new Deck(); // drawn the face up cards
+
+        this.talonCard = new Card(
+            '../src/themes' + SolitaireBoard.solitaireJSON['empty'],
+            '../src/themes' + SolitaireBoard.solitaireJSON['empty']);
+        this.talonCard.buildCard();
+        this.talonElement = this.talonCard.rootElement;
+
+        this.board.index['talon'].appendChild(this.talonElement);
     }
 }
 
 
-export default Board
+export {SolitaireBoard}
