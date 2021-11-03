@@ -1,12 +1,13 @@
 import {isNodeJs, isBrowser, projectDirectory, openJson, product} from "../scripts/utilities/utilities.mjs";
-import {SolitaireBoard} from "../scripts/solitaire_board.mjs";
+import {SolitaireGame} from "../scripts/solitaire_game.mjs";
 
 var main = function(){
     // code to run
     document.addEventListener("DOMContentLoaded", async () => {
-        let board = new SolitaireBoard();
-        await board.buildSolitaireBoard();
-        document.body.appendChild(board.rootElement);
+        let game = new SolitaireGame();
+        await game.start();
+        game.enableStockDrawOnClick();
+        document.body.appendChild(game.rootElement);
     });
 }
 

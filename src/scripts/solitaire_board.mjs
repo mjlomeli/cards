@@ -40,13 +40,13 @@ class SolitaireBoard {
 
         SolitaireBoard.solitaireJSON = await SolitaireCard.getSolitaireJson()
 
-        this.createTableau();
         this.createFoundations();
         this.createStock();
         this.createTalon();
+        await this.createTableau();
     }
 
-    createTableau() {
+    async createTableau() {
         this.tableau = new Board('tableau1 tableau2 tableau3 tableau4 tableau5 tableau6 tableau7');
         this.tableau.buildBoard();
         this.tableauElement = this.tableau.rootElement;
@@ -61,6 +61,22 @@ class SolitaireBoard {
 
             this.tableau.index[t].appendChild(card.rootElement);
         });
+
+        let cards = await this.stock.draw((this.stock.length() / 2) >> 0);
+        while (cards.length > 0) {
+            let card = cards.pop();
+            card.enableDragOnMouseClickHold();
+            card.enableFlippingOnClick();
+            let tableauElement = this.tableau.index[`tableau${(cards.length % 7) + 1}`];
+            let tableauDeck = this.tableau.deckIndex[`tableau${(cards.length % 7) + 1}`];
+            if (tableauDeck.length() > 0) {
+                let top = tableauDeck.top();
+                top.flip();
+            }
+            tableauDeck.addToTop(card);
+            tableauElement.appendChild(card.rootElement);
+        }
+
     }
 
     createFoundations() {

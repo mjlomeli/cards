@@ -1,6 +1,7 @@
 import {isBrowser, isNodeJs, openJson, projectDirectory} from "./utilities/utilities.mjs";
 
 class Card {
+    static dropReceivers = {};
     constructor(frontImageUrl=null, backImageUrl=null){
         this.frontImageUrl = frontImageUrl;
         this.backImageUrl = backImageUrl;
@@ -100,11 +101,6 @@ class Card {
         this.rootElement.removeEventListener("click", this.onClick)
     }
 
-    addCardAsChildToElement(element) {
-        this.element ||= this.createCardElement();
-        element.appendChild(this.element);
-    }
-
 
     enableDragOnMouseClickHold() {
         this.onDragMouseDown = this.dragMouseDown.bind(this);
@@ -152,12 +148,7 @@ class Card {
         this.rootElement.onmousedown = null;
     }
 
-    enableDragDrop(...ontoElements){
-        ontoElements.forEach(elem => {
-            elem.ondrop = this.getsDrop;
-            elem.ondragover = this.givesDrop;
-        });
-
+    enableDragDrop(){
         this.rootElement.draggable = true;
         this.dragdropstart = this.dragDropStart.bind(this);
         this.rootElement.ondragstart = this.dragdropstart;
@@ -175,26 +166,55 @@ class Card {
         this.rootElement.ondragend = null;
     }
 
-    givesDrop(event){
+
+    static enableGetsDrop(indexId, element){
+        Card.dropReceivers[indexId] = element;
+        element.ondrop = Card.getsDrop;
+        element.ondragover = Card.givesDrop;
+    }
+
+    static disableGetsDrop(indexId){
+        Card.dropReceivers[indexId].ondrop = null;
+        Card.dropReceivers[indexId].ondragover = null;
+        delete Card.dropReceivers[indexId];
+    }
+
+    static givesDrop(event){
         // needs to be static method
         console.debug("Started givesDrop");
         event.preventDefault();
     }
 
-    getsDrop(event){
+    static getsDrop(event){
         // needs to be static method
-        event.preventDefault();
         console.debug("Started getsDrop");
-        console.debug(`event.target.id = ${event.target.id}`);
-        console.debug(`event.currentTarget.id = ${event.currentTarget.id}`);
+        event.preventDefault();
+
+        let currentTargetId = event.currentTarget.id;
+        let targetId = event.target.id;
         let data = event.dataTransfer.getData("Text");
+
+        console.debug(`event.target.id = ${targetId}`);
+        console.debug(`event.currentTarget.id = ${currentTargetId}`);
+        console.debug(`event.dataTransfer.getData("Text") => ${data}`)
+
+        if (currentTargetId === '' || currentTargetId === undefined)
+            throw new Error("Current target must have an id");
+        if (data === '' || data === undefined)
+            throw new Error("Draggable object must have an id");
         event.target.appendChild(document.getElementById(data));
     }
 
     dragDropStart(event){
         console.debug("started to drag the element")
-        console.debug(`event.target.id = ${event.target.id}`);
-        console.debug(`event.currentTarget.id = ${event.currentTarget.id}`);
+        let currentTargetId = event.currentTarget.id;
+        let targetId = event.target.id;
+
+        console.debug(`event.target.id = ${targetId}`);
+        console.debug(`event.currentTarget.id = ${currentTargetId}`);
+
+        if (currentTargetId === '' || currentTargetId === undefined)
+            throw new Error("Current target must have an id");
 
         // transferring the id of the element (aka, this.rootElement.id)
         event.dataTransfer.setData("Text", event.currentTarget.id);

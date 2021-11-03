@@ -2,12 +2,15 @@
     Terminology of variables: educated by
     https://bicyclecards.com/how-to-play/solitaire
  */
+import {Deck} from "./deck.mjs";
+import {Card} from "./card.mjs";
 
 class Board {
     constructor(...gridTemplateAreas){
         this.gridAreasStyle = gridTemplateAreas;
         this.index = {}
         this.areas = [];
+        this.deckIndex = {};
 
         this.rootElement = null;
 
@@ -25,6 +28,7 @@ class Board {
         });
         this.areas = Array.from(set);
         this.areas.forEach(key => this.index[key] = null);
+        this.areas.forEach(key => this.deckIndex[key] = new Deck());
     }
 
     createGridContainer(){
@@ -45,11 +49,11 @@ class Board {
     }
 
     enableDrop(area){
-
+        Card.enableGetsDrop(area, this.index[area]);
     }
 
     disableDrop(area){
-
+        Card.disableGetsDrop(area);
     }
 }
 
