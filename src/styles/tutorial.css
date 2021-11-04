@@ -152,3 +152,23 @@ body {
     transform: translateZ(15px);
     cursor: default;
 }
+
+/* profile */
+
+.link-image{
+    width: 10%;
+    height: 10%;
+}
+
+.git-image{
+    width: 9%;
+    height: 9%;
+    margin-right: 3%;
+}
+
+.profile{
+    position: absolute;
+    bottom: 0px;
+    right: -41em;
+    margin-right: 1%;
+}

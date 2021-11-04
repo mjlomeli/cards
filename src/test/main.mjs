@@ -1,12 +1,14 @@
-import {isNodeJs, isBrowser, projectDirectory, openJson, product, debug} from "../scripts/utilities/utilities.mjs";
+import {isNodeJs, isBrowser, debug} from "../scripts/utilities/utilities.mjs";
 import {SolitaireGame} from "../scripts/solitaire_game.mjs";
 import {Card} from "../scripts/card.mjs";
-import {introduction, popupIntroBox} from "../scripts/tutorial.mjs";
+import {introduction, profile} from "../scripts/tutorial.mjs";
 
 
 var main = function(){
     // code to run
     document.addEventListener("DOMContentLoaded", async () => {
+        document.body.appendChild(profile())
+
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
         window.URL = window.URL || window.webkitURL;
