@@ -1,4 +1,6 @@
 function popupIntroBox(elementMessage) {
+    // Credit goes to Mark Malignan
+    // https://codepen.io/MarcMalignan/pen/xByvJ
     function divClass(tag, className) {
         let ele = document.createElement(tag);
         ele.className = className;
@@ -61,6 +63,10 @@ function introduction(nextElementTransition) {
     p2.textContent = "When foundations have been filled in ascending order (Ace to King with the same colors), the game is won. If no more moves can be made and the Foundations is incomplete, the game is lost.";
     elementRoot.appendChild(p2);
 
+    let p3 = document.createElement('p');
+    p3.textContent = "Refresh the page to begin again.";
+    elementRoot.appendChild(p3);
+
     let beginButton = document.createElement('button');
     beginButton.textContent = "Click To Begin"
     elementRoot.appendChild(beginButton);
@@ -69,6 +75,7 @@ function introduction(nextElementTransition) {
 
     beginButton.addEventListener("click", (e) => {
         movingPopup.remove();
+        document.body.appendChild(nextElementTransition);
         quotes();
     });
 
@@ -137,4 +144,4 @@ function quotes() {
 }
 
 
-export {introduction, quotes}
+export {introduction, quotes, popupIntroBox}

@@ -1,10 +1,7 @@
 import {isNodeJs, isBrowser, projectDirectory, openJson, product, debug} from "../scripts/utilities/utilities.mjs";
 import {SolitaireGame} from "../scripts/solitaire_game.mjs";
 import {Card} from "../scripts/card.mjs";
-
-
-
-
+import {introduction, popupIntroBox} from "../scripts/tutorial.mjs";
 
 
 var main = function(){
@@ -20,6 +17,7 @@ var main = function(){
         audioButton.setAttribute('class', 'audio-button');
         let m = document.createElement('i');
         m.className = "fa fa-volume-mute"
+        m.id = "audio-icon";
         audioButton.appendChild(m);
         Card.sound.sound.muted = true;
 
@@ -28,7 +26,6 @@ var main = function(){
                 audio_context.suspend();
             } else if(audio_context.state === 'suspended') {
                 audio_context.resume().then(function() {
-                    // susresBtn.textContent = 'Suspend context';
                     debug.condition("Audio Context Resumed", "");
                 });
             }
@@ -43,13 +40,14 @@ var main = function(){
 
         window.SOUNDS = Card.sound;
 
-        window.SolitaireGame = SolitaireGame
-        window.game = new SolitaireGame();
-        let game = window.game;
+        let game = new SolitaireGame();
+        window.game = game; // for debugging
+
         await game.start();
         game.enableStockDrawOnClick();
-        document.body.appendChild(game.rootElement);
+        document.body.appendChild(introduction(game.rootElement));
 
+        game.rootElement.on
     });
 }
 
@@ -57,3 +55,5 @@ var main = function(){
 if (isBrowser() || isNodeJs()){
     main();
 }
+
+

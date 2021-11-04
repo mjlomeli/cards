@@ -11,9 +11,10 @@ import {Board} from "./board.mjs";
 
 class SolitaireBoard {
     static solitaireJSON = null;
-    constructor() {
+    constructor(difficulty) {
         this.board = null;
         this.rootElement = null;
+        this.difficulty = difficulty;
 
         this.tableauCount = 7;
         this.tableauLength = 13;
@@ -135,7 +136,10 @@ class SolitaireBoard {
     createStock(){
         debug.func("createStock", "started")
         this.stock = new SolitaireDeck();
-        this.stock.veryEasyShuffle();
+        if (this.difficulty === 'hard')
+            this.stock.hardShuffle();
+        else
+            this.stock.veryEasyShuffle();
 
         this.stockCard = new Card(
             '../src/themes' + SolitaireBoard.solitaireJSON['empty'],

@@ -20,6 +20,10 @@
     font-size: 1em;
 }
 
+#audio-icon{
+    color: white;
+}
+
 html, body { height: 100%; }
 body {
     margin: 0;

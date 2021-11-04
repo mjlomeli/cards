@@ -2,6 +2,7 @@ import {SolitaireBoard} from "./solitaire_board.mjs";
 import {SolitaireCard} from "./solitaire_card.mjs";
 import {Card} from "./card.mjs";
 import {debug} from "./utilities/utilities.mjs";
+import {introduction, popupIntroBox} from "./tutorial.mjs";
 
 
 class SolitaireGame {
@@ -14,8 +15,8 @@ class SolitaireGame {
         this.onStockClick = null;
     }
 
-    async start() {
-        this.board = new SolitaireBoard();
+    async start(difficulty) {
+        this.board = new SolitaireBoard(difficulty);
         await this.board.buildSolitaireBoard()
         this.rootElement = this.board.rootElement;
 
@@ -134,6 +135,7 @@ class SolitaireGame {
             let fromDeck = element.dataset.deck
             await SolitaireGame.drawFromDeckTo(this.board, fromDeck, currentTargetId);
             event.currentTarget.appendChild(element);
+            onGameOver(this);
         }
 
         debug.event("getsDrop", "ended");
@@ -245,5 +247,54 @@ class SolitaireGame {
     }
 }
 
+
+function onGameOver(game){
+    function isGameOver(game){
+        return game.board.foundations.every(suit => {
+            return game.board.foundationDeckIndex[suit].length() === 13
+        });
+    }
+
+    if (true || isGameOver(game)){
+        let div = document.createElement('div');
+        let h1 = document.createElement('h1');
+        h1.textContent = "Congratulations!"
+        div.appendChild(h1);
+        let p1 = document.createElement('p');
+        p1.textContent = "The way of progress is constantly extreme and the individuals" +
+            " who are constantly prepared to take challenges and have the bravery to " +
+            "prevail upon it, just they are granted for these accomplishments."
+        div.appendChild(p1);
+        let p2 = document.createElement('p');
+        p2.textContent = "I praise you as you have such an identity."
+        div.appendChild(p2);
+        let p3 = document.createElement('p');
+        p3.textContent = "Continuously push forward throughout everyday life."
+        div.appendChild(p3);
+        let h2 = document.createElement('h2');
+        h2.textContent = "Now, lets go harder..."
+        div.appendChild(h2);
+        let button = document.createElement('button');
+        button.textContent = "Hold on tight!"
+        div.appendChild(button)
+
+        let box = popupIntroBox(div)
+
+        async function hardGame(box, e) {
+            console.log(box, e);
+            game.rootElement.remove();
+            game = new SolitaireGame();
+            window.game = game; // for debugging
+            await game.start('hard');
+            game.enableStockDrawOnClick();
+            box.remove();
+            document.body.appendChild(game.rootElement);
+        }
+
+        let boundedFunc = hardGame.bind(this, box);
+        button.addEventListener('click', boundedFunc);
+        document.body.appendChild(box);
+    }
+}
 
 export {SolitaireGame}
