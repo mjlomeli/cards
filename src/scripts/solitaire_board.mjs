@@ -69,15 +69,15 @@ class SolitaireBoard {
 
             this.tableauBoard.elementIndex[t].appendChild(card.rootElement);
         });
-        let order = [];
+
         for (let i = 0; i < 7; i++){
             for (let j = i; j < 7; j++) {
                 let cards = await this.stock.draw();
                 let card = cards[0];
                 let tabIndex = `tableau${j+1}`
                 this.cardIndex[card.id] = card;
-                order.push(card.rank);
                 SolitaireBoard.setDeckData(card, tabIndex)
+                card.rootElement.classList.add('card-slide');
                 let tableauElement = this.tableauBoard.elementIndex[tabIndex];
                 let tableauDeck = this.tableauBoard.deckIndex[tabIndex];
                 if (tableauDeck.length() > 0) {

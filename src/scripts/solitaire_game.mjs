@@ -66,13 +66,17 @@ class SolitaireGame {
         this.onStockClick = this.draw.bind(this);
         this.board.stockElement.addEventListener("click", this.onStockClick);
         this.board.stockElement.classList.add("cursor-grab");
+        this.board.stockElement.classList.remove('cursor-default');
         debug.func("enableStockDrawOnClick", "finished")
     }
 
     disableStockDrawOnClick() {
+        debug.event("disableStockDrawOnClick", "started");
         this.board.stockElement.removeEventListener("click", this.onStockClick)
         this.board.stockElement.classList.remove('cursor-grab');
         this.board.stockElement.classList.add('cursor-default');
+        debug.log(`${this.board.stockElement.id} style='cursor-default'`);
+        debug.event("disableStockDrawOnClick", "finished");
     }
 
     static enableGetsDrop(indexId, element, game) {
@@ -121,11 +125,6 @@ class SolitaireGame {
         let targetId = event.target.id;
         let data = event.dataTransfer.getData("Text");
 
-        //debug.data("event.target", event.target);
-        //debug.data(`event.target.id`, targetId);
-        //debug.data(`event.currentTarget.id`, currentTargetId);
-        //debug.data(`event.dataTransfer.getData("Text")`, data);
-
         debug.log(`${currentTargetId} is getting ${data}`);
 
         if (this !== undefined && this.isValidMove(currentTargetId, data)) {
@@ -152,6 +151,7 @@ class SolitaireGame {
         if (!card.fitsFoundationOrder(deck))
             return false;
         card.disableDragDrop();
+        card.rootElement.classList.remove('card-slide');
         return true;
     }
 
@@ -160,7 +160,10 @@ class SolitaireGame {
             return false;
         let card = this.board.cardIndex[cardId];
         let deck = this.board.tableauBoard.deckIndex[deckName];
-        return card.fitsTableauOrder(deck);
+        if (!card.fitsTableauOrder(deck))
+            return false;
+        card.rootElement.classList.add('card-slide');
+        return true;
     }
 
     static onDragOver(heldCard, event){

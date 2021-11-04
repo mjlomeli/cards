@@ -1,4 +1,4 @@
-import {product} from "./utilities/cartesian_product.mjs";
+import {product} from "./utilities/utilities.mjs";
 import {Deck} from "./deck.mjs";
 import {SolitaireCard} from "./solitaire_card.mjs";
 

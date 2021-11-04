@@ -7,6 +7,7 @@ import {SolitaireGame} from "../scripts/solitaire_game.mjs";
 var main = function(){
     // code to run
     document.addEventListener("DOMContentLoaded", async () => {
+        window.SolitaireGame = SolitaireGame
         window.game = new SolitaireGame();
         let game = window.game;
         await game.start();
