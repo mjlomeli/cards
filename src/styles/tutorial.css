@@ -104,11 +104,13 @@ body {
 
 .moving-zone-mini {
     position: absolute;
-    top: 75%;
-    left: 35%;
+    top: 80%;
+    left: 37%;
     width: auto;
     height: auto;
-    margin: auto;
+    margin: 0 auto;
+    justify-content: center;
+    align-content: center;
     perspective: 800px;
 }
 
