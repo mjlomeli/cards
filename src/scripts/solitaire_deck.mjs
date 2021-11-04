@@ -97,6 +97,25 @@ class SolitaireDeck extends Deck {
         }
         return cards;
     }
+
+    veryEasyShuffle() {
+        let orders = [2, 4, 5, 6, 7, 7, 7, 2, 3, 5, 6, 6, 7, 2, 3, 4, 5,
+            6, 'ace', 3, 4, 5, 'ace', 3, 4, 'ace', 2, 'ace'];
+        let front = [];
+        orders.forEach(rank => {
+            let found = this.drawWhere(1, card => card.rank === rank);
+            front = front.concat(found);
+        })
+        this.cards = front.concat(this.cards);
+    }
+    easyShuffle(){
+        this.veryEasyShuffle()
+        this.shuffle(5);
+    }
+    mediumShuffle(){
+        this.veryEasyShuffle();
+        this.shuffle(10);
+    }
 }
 
 export { SolitaireDeck }

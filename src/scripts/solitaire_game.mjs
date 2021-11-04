@@ -26,21 +26,32 @@ class SolitaireGame {
             if (tableauDeck.length() > 0) {
                 let card = tableauDeck.top();
                 card.enableDragDrop();
+                card.rootElement.classList.add('cursor-grab');
+                card.rootElement.ondragover = SolitaireGame.onDragOver.bind(this, card);
             }
         }
+
+        for (let foundationName in this.board.foundationCardIndex){
+            let rootGridElement = this.board.board.elementIndex[foundationName];
+            SolitaireGame.enableGetsDrop(foundationName, rootGridElement, this);
+        }
+
     }
 
     async draw() {
         debug.func("draw", "started");
         if (this.board.stock.length() === 1) {
             this.board.stockCard.flipUp();
+            this.disableStockDrawOnClick();
             debug.log("last card drew");
         }
         if (this.board.stock.length() > 0) {
             await SolitaireGame.drawFromDeckTo(this.board, "stock", "talon");
             let card = this.board.talon.top();
+            this.board.cardIndex[card.id] = card;
             this.board.board.elementIndex["talon"].appendChild(card.rootElement);
             card.enableDragDrop();
+            card.rootElement.ondragover = SolitaireGame.onDragOver.bind(this, card);
         }
         debug.func("draw", "ended");
     }
@@ -54,11 +65,14 @@ class SolitaireGame {
         //save the bounded function to be able to remove the event listener later.
         this.onStockClick = this.draw.bind(this);
         this.board.stockElement.addEventListener("click", this.onStockClick);
+        this.board.stockElement.classList.add("cursor-grab");
         debug.func("enableStockDrawOnClick", "finished")
     }
 
     disableStockDrawOnClick() {
         this.board.stockElement.removeEventListener("click", this.onStockClick)
+        this.board.stockElement.classList.remove('cursor-grab');
+        this.board.stockElement.classList.add('cursor-default');
     }
 
     static enableGetsDrop(indexId, element, game) {
@@ -100,7 +114,7 @@ class SolitaireGame {
 
     static async getsDrop(event) {
         // needs to be static method
-        debug.func("getsDrop", "started");
+        debug.event("getsDrop", "started");
         event.preventDefault();
 
         let currentTargetId = event.currentTarget.id;
@@ -114,21 +128,49 @@ class SolitaireGame {
 
         debug.log(`${currentTargetId} is getting ${data}`);
 
-        if (currentTargetId === '' || currentTargetId === undefined)
-            throw new Error("Current target must have an id");
-        if (data === '' || data === undefined)
-            throw new Error("Draggable object must have an id");
-
-        if (this !== undefined) {
-            debug.condition("if", "this != undefined");
+        if (this !== undefined && this.isValidMove(currentTargetId, data)) {
+            debug.condition("if", "this !== undefined");
             let element = document.getElementById(data)
             let fromDeck = element.dataset.deck
-            //debug.data("element.dataset.deck", fromDeck);
             await SolitaireGame.drawFromDeckTo(this.board, fromDeck, currentTargetId);
             event.currentTarget.appendChild(element);
         }
 
-        debug.func("getsDrop", "ended");
+        debug.event("getsDrop", "ended");
+    }
+
+    isValidMove(deckName, cardId){
+        return this.isValidFoundationMove(deckName, cardId) ||
+            this.isValidTableauMove(deckName, cardId)
+    }
+
+    isValidFoundationMove(deckName, cardId){
+        if (!this.board.foundations.includes(deckName))
+            return false;
+        let card = this.board.cardIndex[cardId];
+        let deck = this.board.foundationDeckIndex[deckName];
+        if (!card.fitsFoundationOrder(deck))
+            return false;
+        card.disableDragDrop();
+        return true;
+    }
+
+    isValidTableauMove(deckName, cardId){
+        if (!deckName.includes('tableau'))
+            return false;
+        let card = this.board.cardIndex[cardId];
+        let deck = this.board.tableauBoard.deckIndex[deckName];
+        return card.fitsTableauOrder(deck);
+    }
+
+    static onDragOver(heldCard, event){
+        debug.event('onDragOver', 'started');
+        let currentTargetId = event.currentTarget.id;
+        debug.log(`Hovering over ${currentTargetId}`);
+        let bottomCard = document.getElementById(currentTargetId);
+
+
+        debug.event('onDragOver', 'ended')
     }
 
 
@@ -165,13 +207,13 @@ class SolitaireGame {
             case "talon":
                 return board.talon;
             case "hearts":
-                return board.foundations["hearts"];
+                return board.foundationDeckIndex["hearts"];
             case "diamonds":
-                return board.foundations["diamonds"];
+                return board.foundationDeckIndex["diamonds"];
             case "clubs":
-                return board.foundations["clubs"];
+                return board.foundationDeckIndex["clubs"];
             case "spades":
-                return board.foundations["spades"];
+                return board.foundationDeckIndex["spades"];
             default:
                 if (!deckName.toLowerCase().includes('tableau'))
                     return null;

@@ -31,7 +31,10 @@ class SolitaireBoard {
         this.talon = null; // the face up drawn cards
         this.talonCard = null;
         this.talonElement = null;
+
+        this.cardIndex = {};
     }
+
 
     async buildSolitaireBoard() {
         debug.func("buildSolitaireBoard", "started")
@@ -66,21 +69,26 @@ class SolitaireBoard {
 
             this.tableauBoard.elementIndex[t].appendChild(card.rootElement);
         });
-
-        let cards = await this.stock.draw((this.stock.length() / 2) >> 0);
-        while (cards.length > 0) {
-            let card = cards.pop();
-            let tabIndex = `tableau${(cards.length % 7) + 1}`
-            SolitaireBoard.setDeckData(card, tabIndex)
-            let tableauElement = this.tableauBoard.elementIndex[tabIndex];
-            let tableauDeck = this.tableauBoard.deckIndex[tabIndex];
-            if (tableauDeck.length() > 0) {
-                let top = tableauDeck.top();
-                top.flip();
+        let order = [];
+        for (let i = 0; i < 7; i++){
+            for (let j = i; j < 7; j++) {
+                let cards = await this.stock.draw();
+                let card = cards[0];
+                let tabIndex = `tableau${j+1}`
+                this.cardIndex[card.id] = card;
+                order.push(card.rank);
+                SolitaireBoard.setDeckData(card, tabIndex)
+                let tableauElement = this.tableauBoard.elementIndex[tabIndex];
+                let tableauDeck = this.tableauBoard.deckIndex[tabIndex];
+                if (tableauDeck.length() > 0) {
+                    let top = tableauDeck.top();
+                    top.flip();
+                }
+                tableauDeck.addToTop(card);
+                tableauElement.appendChild(card.rootElement);
             }
-            tableauDeck.addToTop(card);
-            tableauElement.appendChild(card.rootElement);
         }
+        console.log(`order: ${order}`);
 
         debug.func("createTableau", "finished")
     }
@@ -128,7 +136,7 @@ class SolitaireBoard {
     createStock(){
         debug.func("createStock", "started")
         this.stock = new SolitaireDeck();
-        this.stock.shuffle();
+        this.stock.veryEasyShuffle();
 
         this.stockCard = new Card(
             '../src/themes' + SolitaireBoard.solitaireJSON['empty'],

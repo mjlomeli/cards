@@ -19,6 +19,7 @@ class Card {
         this.onStopDragElement = null;
         this.dragdropstart = null;
         this.dragdropend = null;
+        this.ondragover = null;
 
         this.pos1 = 0;
         this.pos2 = 0;
@@ -184,20 +185,30 @@ class Card {
 
     enableDragDrop(){
         this.rootElement.draggable = true;
+        this.rootElement.classList.add('cursor-grab');
         this.dragdropstart = this.dragDropStart.bind(this);
         this.rootElement.ondragstart = this.dragdropstart;
 
         this.dragdropend = this.dragDropEnd.bind(this);
         this.rootElement.ondragend = this.dragdropend;
+
+        this.ondragover = this.onDragOver.bind(this);
+        this.rootElement.ondragover = this.ondragover
     }
 
     disableDragDrop(){
         this.rootElement.draggable = false;
+        this.rootElement.classList.remove('cursor-grab');
+        this.rootElement.classList.add('cursor-default');
+
         this.dragdropstart = null;
         this.rootElement.ondragstart = null;
 
         this.dragdropend = null;
         this.rootElement.ondragend = null;
+
+        this.ondragover = null;
+        this.rootElement.ondragover = null;
     }
 
 
@@ -262,6 +273,10 @@ class Card {
 
     dragDropEnd(){
         // nothing
+    }
+
+    onDragOver(e){
+
     }
 
     disable(){

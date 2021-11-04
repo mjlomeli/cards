@@ -101,7 +101,7 @@ class debug {
         if (isNodeJs())
             console.debug(`\x1b[37;45;1m   FUNC  \x1b[0m \x1b[35m${name}: ${string}\x1b[0m`);
         if (isBrowser())
-            console.debug(`%c  FUNC  ` + `%c ${name}: ${string}`, "background:blue;color:white", "color:black");
+            console.debug(`%c  FUNC  ` + `%c ${name}` +`%c: ${string}`, "background:blue;color:white", "color:blue", "color:black");
     }
 
     static log(string){
@@ -130,7 +130,7 @@ class debug {
         if (isNodeJs())
             console.debug(`\x1b[1;45;1m  EVNT  \x1b[0m \x1b[37m${name}: ${string}\x1b[0m`);
         else if (isBrowser())
-            console.debug(`%c  EVNT  ` + `%c ${name}: ${string}`, "background:purple;color:white", "color:black");
+            console.debug(`%c  EVNT  ` + `%c ${name}` + `%c: ${string}`, "background:purple;color:white", "color:purple", "color:black");
     }
 
 }

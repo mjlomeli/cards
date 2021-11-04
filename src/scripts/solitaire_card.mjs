@@ -9,6 +9,8 @@ class SolitaireCard extends Card {
         super();
         this.rank = rank;
         this.suit = suit;
+        this.id = `${rank}_of_${suit}`;
+        this.color = (['hearts', 'diamonds'].includes(suit)) ? 'red' : 'black';
     }
 
     static async getSolitaireJson() {
@@ -36,7 +38,7 @@ class SolitaireCard extends Card {
 
     createElement() {
         // Add root data
-        this.rootElement.id = `${this.rank}_of_${this.suit}`;
+        this.rootElement.id = this.id;
 
         // Add front data
         this.frontElement.dataset.suit = this.suit;
@@ -117,6 +119,22 @@ class SolitaireCard extends Card {
             return 0;
         else
             return 1;
+    }
+
+    fitsFoundationOrder(deck){
+        let cmp = this.integer_value();
+        if (deck.length() === 0)
+            return cmp === 1;
+        let card = deck.top();
+        return this.suit === card.suit && cmp - card.integer_value() === 1;
+    }
+
+    fitsTableauOrder(deck){
+        let cmp = this.integer_value();
+        if (deck.length() === 0)
+            return this.rank === 'king';
+        let card = deck.top();
+        return this.color !== card.color && card.integer_value() - cmp === 1;
     }
 
     greaterThan(other) {

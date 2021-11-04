@@ -36,9 +36,9 @@ class Deck {
         return false;
     }
 
-    shuffle(){
+    shuffle(entropy=null){
         //Durstenfeld Shuffle: https://bost.ocks.org/mike/shuffle/
-        let i = this.cards.length;
+        let i = (entropy === null) ? this.cards.length : entropy;
         let random_i;
         while (i !== 0) {
             random_i = Math.floor(Math.random() * i--);
@@ -83,7 +83,7 @@ class Deck {
         this.cards.splice(index, 0, card);
     }
 
-    drawWhere(callback, num=13){
+    drawWhere(num=1, callback){
         let drawn_cards = [];
         let i = 0;
         while (num > 0 && i < this.cards.length){

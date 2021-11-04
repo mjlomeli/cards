@@ -8,7 +8,6 @@
     height: 1em; /* width and height must be equal */
     background: none;
     box-shadow: none;
-    cursor: grab;
 }
 
 .card img{
@@ -28,4 +27,20 @@
 
 .flip {
     transform: rotateY(180deg);
+}
+
+.cursor-grab {
+    cursor: grab;
+}
+
+.cursor-default{
+    cursor: default;
+}
+
+.cursor-pointer-loading{
+    cursor: progress;
+}
+
+.cursor-loading{
+    cursor: wait;
 }
