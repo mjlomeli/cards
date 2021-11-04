@@ -90,7 +90,7 @@ class SolitaireBoard {
         // hearts blank card
         let hearts = new Card(
             '../src/themes' + SolitaireBoard.solitaireJSON['hearts']['foundation'],
-            '../src/themes' + SolitaireBoard.solitaireJSON['hearts']['foundation']);
+            '../src/themes' + SolitaireBoard.solitaireJSON['backside']);
         hearts.buildCard();
         hearts.rootElement.id = "hearts";
         this.board.elementIndex['hearts'].appendChild(hearts.rootElement);
@@ -98,7 +98,7 @@ class SolitaireBoard {
         // spades blank card
         let spades = new Card(
             '../src/themes' + SolitaireBoard.solitaireJSON['spades']['foundation'],
-            '../src/themes' + SolitaireBoard.solitaireJSON['spades']['foundation']);
+            '../src/themes' + SolitaireBoard.solitaireJSON['backside']);
         spades.buildCard();
         spades.rootElement.id = "spades";
         this.board.elementIndex['spades'].appendChild(spades.rootElement);
@@ -106,7 +106,7 @@ class SolitaireBoard {
         // diamonds blank card
         let diamonds = new Card(
             '../src/themes' + SolitaireBoard.solitaireJSON['diamonds']['foundation'],
-            '../src/themes' + SolitaireBoard.solitaireJSON['diamonds']['foundation']);
+            '../src/themes' + SolitaireBoard.solitaireJSON['backside']);
         diamonds.buildCard();
         diamonds.rootElement.id = "diamonds";
         this.board.elementIndex['diamonds'].appendChild(diamonds.rootElement);
@@ -114,7 +114,7 @@ class SolitaireBoard {
         // clubs blank card
         let clubs = new Card(
             '../src/themes' + SolitaireBoard.solitaireJSON['clubs']['foundation'],
-            '../src/themes' + SolitaireBoard.solitaireJSON['clubs']['foundation']);
+            '../src/themes' + SolitaireBoard.solitaireJSON['backside']);
         clubs.buildCard();
         clubs.rootElement.id = "clubs";
         this.board.elementIndex['clubs'].appendChild(clubs.rootElement);
@@ -131,9 +131,10 @@ class SolitaireBoard {
         this.stock.shuffle();
 
         this.stockCard = new Card(
-            '../src/themes' + SolitaireBoard.solitaireJSON['backside'],
-            '../src/themes' + SolitaireBoard.solitaireJSON['empty']);
+            '../src/themes' + SolitaireBoard.solitaireJSON['empty'],
+            '../src/themes' + SolitaireBoard.solitaireJSON['backside']);
         this.stockCard.buildCard();
+        this.stockCard.flipDown();
         this.stockElement = this.stockCard.rootElement;
         this.stockElement.id = "stock";
 

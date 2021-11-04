@@ -24,10 +24,24 @@ class Card {
         this.pos2 = 0;
         this.pos3 = 0;
         this.pos4 = 0;
+
+        this.enabled = true;
     }
 
     buildCard() {
         this.createCardElement();
+    }
+
+    createCardElement() {
+        // Create the parts of the card
+        this.rootElement = document.createElement('div');
+
+        // Add meta data
+        this.rootElement.setAttribute('class', 'card')
+        this.rootElement.draggable = false;
+
+        this.rootElement.appendChild(this.createFrontElement());
+        this.rootElement.appendChild(this.createBackElement());
     }
 
     createFrontElement(){
@@ -37,6 +51,8 @@ class Card {
         // Create the parts of the card
         this.frontElement = document.createElement('div');
         this.frontImageElement = document.createElement('img');
+        this.frontElement.draggable = false;
+        this.frontImageElement.draggable = false;
         this.frontElement.appendChild(this.frontImageElement);
 
         // Add data
@@ -52,6 +68,8 @@ class Card {
         // Create the parts of the card
         this.backElement = document.createElement('div');
         this.backImageElement = document.createElement('img');
+        this.backElement.draggable = false;
+        this.backImageElement.draggable = false;
         this.backElement.appendChild(this.backImageElement);
 
         // Add data
@@ -64,18 +82,6 @@ class Card {
         return this.backElement;
     }
 
-    createCardElement() {
-        // Create the parts of the card
-        this.rootElement = document.createElement('div');
-
-        // Add meta data
-        this.rootElement.setAttribute('class', 'card')
-        this.rootElement.dataset.visible = "true";
-
-        this.rootElement.appendChild(this.createFrontElement());
-        this.rootElement.appendChild(this.createBackElement());
-    }
-
     flip() {
         // if the backside card isn't already flipped, it must be flipped
         // but our createElement will already flip it for us.
@@ -83,30 +89,28 @@ class Card {
 
         // classList access the css, we use .flip (note: doesn't need to have the same class name)
         if (!this.moved) {
-            this.rootElement.dataset.visible = (this.rootElement.dataset.visible === "true") ? "false" : "true";
             this.backElement.classList.toggle("flip");
             this.frontElement.classList.toggle("flip");
         }
     }
 
     flipUp(){
-        if (this.rootElement.dataset.visible === "false") {
+        if (!this.isVisible()) {
             this.backElement.classList.toggle("flip");
             this.frontElement.classList.toggle("flip");
-            this.rootElement.dataset.visible = "true";
         }
     }
 
     flipDown(){
-        if (this.rootElement.dataset.visible === "true") {
+        if (this.isVisible()) {
             this.backElement.classList.toggle("flip");
             this.frontElement.classList.toggle("flip");
-            this.rootElement.dataset.visible = "false";
         }
     }
 
     isVisible(){
-        return this.rootElement.dataset.visible === "true";
+        // checks if the front-side is facing down
+        return this.backElement.classList.contains('flip');
     }
 
     enableFlippingOnClick() {
@@ -127,47 +131,55 @@ class Card {
     enableDragOnMouseClickHold() {
         this.onDragMouseDown = this.dragMouseDown.bind(this);
         this.rootElement.onmousedown = this.onDragMouseDown;
+        this.rootElement.draggable = true;
     }
 
 
     elementDrag(e) {
-        this.moved = true;
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        this.pos1 = this.pos3 - e.clientX;
-        this.pos2 = this.pos4 - e.clientY;
-        this.pos3 = e.clientX;
-        this.pos4 = e.clientY;
-        // set the element's new position:
-        //TODO: ask why I don't have access to this.rootElement in this scope
-        this.rootElement.style.top = (this.rootElement.offsetTop - this.pos2) + "px";
-        this.rootElement.style.left = (this.rootElement.offsetLeft - this.pos1) + "px";
+        if (this.enabled) {
+            this.moved = true;
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            this.pos1 = this.pos3 - e.clientX;
+            this.pos2 = this.pos4 - e.clientY;
+            this.pos3 = e.clientX;
+            this.pos4 = e.clientY;
+            // set the element's new position:
+            //TODO: ask why I don't have access to this.rootElement in this scope
+            this.rootElement.style.top = (this.rootElement.offsetTop - this.pos2) + "px";
+            this.rootElement.style.left = (this.rootElement.offsetLeft - this.pos1) + "px";
+        }
     }
 
     dragMouseDown(e) {
-        this.moved = false;
-        e = e || window.event;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        this.pos3 = e.clientX;
-        this.pos4 = e.clientY;
+        if (this.enabled) {
+            this.moved = false;
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            this.pos3 = e.clientX;
+            this.pos4 = e.clientY;
 
-        this.onElementDrag = this.elementDrag.bind(this);
-        this.onStopDragElement = this.closeDragElement.bind(this);
-        document.onmouseup = this.onStopDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = this.onElementDrag;
+            this.onElementDrag = this.elementDrag.bind(this);
+            this.onStopDragElement = this.closeDragElement.bind(this);
+            document.onmouseup = this.onStopDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = this.onElementDrag;
+        }
     }
 
     closeDragElement() {
-        // stop moving when mouse button is released:
-        document.onmouseup = null;
-        document.onmousemove = null;
+        if (this.enabled) {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
     }
 
     disableDragOnMouseClickHold() {
         this.rootElement.onmousedown = null;
+        this.rootElement.draggable = false;
     }
 
     enableDragDrop(){
@@ -230,24 +242,38 @@ class Card {
     }
 
     dragDropStart(event){
-        debug.func("dragDropStart", "started");
-        let currentTargetId = event.currentTarget.id;
-        let targetId = event.target.id;
+        if (this.enabled) {
+            debug.func("dragDropStart", "started");
+            let currentTargetId = event.currentTarget.id;
+            let targetId = event.target.id;
 
-        debug.log(`started to drag the ${currentTargetId}`)
-        //debug.log(`event.target.id = ${targetId}`);
-        //debug.log(`event.currentTarget.id = ${currentTargetId}`);
+            debug.log(`started to drag the ${currentTargetId}`)
+            //debug.log(`event.target.id = ${targetId}`);
+            //debug.log(`event.currentTarget.id = ${currentTargetId}`);
 
-        if (currentTargetId === '' || currentTargetId === undefined)
-            throw new Error("Current target must have an id");
+            if (currentTargetId === '' || currentTargetId === undefined)
+                throw new Error("Current target must have an id");
 
-        // transferring the id of the element (aka, this.rootElement.id)
-        event.dataTransfer.setData("Text", event.currentTarget.id);
-        debug.func("dragDropStart", "finished");
+            // transferring the id of the element (aka, this.rootElement.id)
+            event.dataTransfer.setData("Text", event.currentTarget.id);
+            debug.func("dragDropStart", "finished");
+        }
     }
 
     dragDropEnd(){
         // nothing
+    }
+
+    disable(){
+        this.enabled = false;
+    }
+
+    enable(){
+        this.enabled = true;
+    }
+
+    isEnabled(){
+        return this.enabled;
     }
 
     contains(other){
