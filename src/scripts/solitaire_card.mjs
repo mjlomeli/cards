@@ -30,8 +30,8 @@ class SolitaireCard extends Card {
         // all async elements should be defined here
         if (SolitaireCard.solitaireJSON === null)
             SolitaireCard.solitaireJSON = await SolitaireCard.getSolitaireJson();
-        this.frontImageUrl = '../src/themes' + SolitaireCard.solitaireJSON[this.suit][this.rank];
-        this.backImageUrl = '../src/themes' + SolitaireCard.solitaireJSON["backside"];
+        this.frontImageUrl = './src/themes' + SolitaireCard.solitaireJSON[this.suit][this.rank];
+        this.backImageUrl = './src/themes' + SolitaireCard.solitaireJSON["backside"];
         super.buildCard();
         this.createElement();
     }
