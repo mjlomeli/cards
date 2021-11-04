@@ -151,8 +151,9 @@ class SolitaireGame {
             return false;
         let card = this.board.cardIndex[cardId];
         let deck = this.board.foundationDeckIndex[deckName];
-        if (!card.fitsFoundationOrder(deck))
+        if (!card.fitsFoundationOrder(deck) || deckName !== card.suit)
             return false;
+        debug.condition(`isValidFoundationMove(${deckName}, ${cardId})`, "=> true");
         card.disableDragDrop();
         card.rootElement.classList.remove('card-slide');
         return true;
@@ -165,6 +166,7 @@ class SolitaireGame {
         let deck = this.board.tableauBoard.deckIndex[deckName];
         if (!card.fitsTableauOrder(deck))
             return false;
+        debug.condition(`isValidTableauMove(${deckName}, ${cardId})`, "=> true");
         card.rootElement.classList.add('card-slide');
         return true;
     }
