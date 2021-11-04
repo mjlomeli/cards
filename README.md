@@ -3,7 +3,7 @@
 [![issues - cards](https://img.shields.io/github/issues/mjlomeli/cards)](https://github.com/mjlomeli/cards/issues)
 <div align="left">
 
-[![VIEW SITE - DOWN](https://img.shields.io/static/v1?label=VIEW+SITE&message=DOWN&color=D56049&style=for-the-badge&logo=digitalocean)](https://http://mauriciois.me/cards/)
+[![VIEW SITE - DOWN](https://img.shields.io/static/v1?label=VIEW+SITE&message=DOWN&color=D56049&style=for-the-badge&logo=digitalocean)](https://mjlomeli.github.io/cards/)
 
 </div>
 
@@ -22,12 +22,9 @@ of concept.
 
 #Welcome to MoveItThere!
 ##Rules
-#### Your may transfer any top card  faced up  to any of the piles but maintain the sequence of descending value and alternating color. An empty spot in the Tableau may be filled with a king. If you cannot move any cards from the Tableau, 1 card may be drawn from the Stock pile and placed in the Talon.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You may transfer any top card  faced up  to any of the piles but maintain the sequence of descending value and alternating color. An empty spot in the Tableau may be filled with a king. If you cannot move any cards from the Tableau, 1 card may be drawn from the Stock pile and placed in the Talon.<p>
 
-#### When foundations have been filled in ascending order (Ace to King with the "+
-        "same colors), the game is won. If no more moves can be made and "+
-        "the Foundations is incomplete, the game is lost.";
-    elementRoot.appendChild(p2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When foundations have been filled in ascending order (Ace to King with the same colors), the game is won. If no more moves can be made and the Foundations is incomplete, the game is lost.
 
 
 ### In Cards, users will be able to:
@@ -126,7 +123,7 @@ Split the objects into 5 modules:
 
 - [x] Link to live version.
 
-- [ ] Instructions on how to play/interact with the project.
+- [x] Instructions on how to play/interact with the project.
 
 - [x] List of technologies / libraries.
 
