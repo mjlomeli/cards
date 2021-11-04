@@ -171,4 +171,5 @@ body {
     bottom: 0px;
     right: -41em;
     margin-right: 1%;
+    user-select: none;
 }
