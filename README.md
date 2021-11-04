@@ -48,22 +48,29 @@ Have split the objects into 5 modules:
     - Front face image
     - Back face image
     - Flippable
-    - Rotatable
-    - Name
-    - additional attributes for later.
+    - Id
+    - Draggable
 2. Deck
-    - Is a data structure of Cards
+    - Is a data structure of Cards.
     - Shuffles
-    - Draws a card
+    - Draws card(s)
 3. Board
-    - Links cards to positions to be placed
-    - Background scenery
+    - Links cards to positions on a grid.
+    - Background
+    - Datastructure is hash optimized.
 4. Game
-    - Generates a deck out of cards by downloading from the API.
     - Player takes turns to solve the game.
-6. Utilities
-    - Display a set of instructions for the player to learn how to play.
-    - Score or additional data visualizations (e.g. score bar).
+    - Is all the logic for making the rules of the game.
+5. Utilities
+    - Cartesian product
+    - Immutable matrix multiplication.
+    - Checks system for compatible environments (e.g. Web or NodeJs).
+    - Debugging tools.
+    - Proxy tools.
+    - Directory and file operations.
+6. Tutorial
+   - Display instructions for the player to learn how to play.
+   - Pops up quotes.
 
 ## Goals
 
@@ -81,43 +88,43 @@ Have split the objects into 5 modules:
 
 #### Day 3: _Canvas Skeleton_
 
-- Create the canvas objects
+- Create the objects.
 
 #### Day 4: _Apply Objects_
 
-- Bind the canvas objects to events
+- Bind the objects to events.
 
-#### Day 5: _Improve Project_
+#### Day 5: _Debug_
 
-- Apply this template onto other card games
 
-#### Day 6-7: _Debug_
+#### Day 6-7: _Improve Project_
+- Improve the game with additional visuals.
 
 ## Checklist
 
 ### Live Project
 
-- [ ] Includes links to your portfolio website, Github, and LinkedIn.
+- [x] Includes links to your Github and LinkedIn.
 
-- [ ] Landing page/modal with obvious, clear instructions.
+- [x] Landing page/modal with obvious, clear instructions.
 
-- [ ] Interactivity of some kind.
+- [x] Interactivity of some kind.
 
-- [ ] Well styled, clean frontend.
+- [x] Well styled, clean frontend.
 
-- [ ] If it has music, the option to mute or stop it.
+- [x] If it has music, the option to mute or stop it.
 
 ### Production README
 
-- [ ] Link to live version.
+- [x] Link to live version.
 
 - [ ] Instructions on how to play/interact with the project.
 
-- [ ] List of technologies / libraries / APIs used.
+- [x] List of technologies / libraries / APIs used.
 
 - [ ] Technical implementation details with (good-looking) code snippets.
 
-- [ ] To-dos / future features.
+- [x] To-dos / future features.
 
 - [X] No .DS_Store files / debuggers / console.logs.
 

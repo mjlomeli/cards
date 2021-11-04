@@ -1,8 +1,54 @@
 import {debug, isBrowser, isNodeJs, openJson, projectDirectory} from "./utilities/utilities.mjs";
 
+class Sound {
+    constructor(src){
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.setAttribute('class', 'audio');
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        this.sound.addEventListener('ended', () => {
+            this.sound.currentTime = 0;
+        });
+    }
+    play(){
+        let promise = this.sound.play()
+        if (promise !== undefined){
+            promise.then(_=> {
+                // it worked
+            }).catch(error => {
+                console.warn("Press the unmute button on the top left to hear audio.");
+            })
+        }
+    }
+    pause(){
+        this.sound.pause();
+    }
+    stop(){
+        this.sound.stop();
+    }
+    restart(){
+        this.sound.start
+    }
+    mute(){
+        this.sound.muted = true;
+    }
+    unmute(){
+        this.sound.muted = false;
+    }
+}
+
 class Card {
-    static sound = new Sound('../src/sounds/card_flip.mp3');
+    static sound = null;
     static dropReceivers = {};
+
+    static initSound(){
+        if (Card.sound === null)
+            Card.sound = new Sound('../src/sounds/card_flip.mp3');
+    }
+
     constructor(frontImageUrl=null, backImageUrl=null){
         this.frontImageUrl = frontImageUrl;
         this.backImageUrl = backImageUrl;
@@ -28,6 +74,9 @@ class Card {
         this.pos4 = 0;
 
         this.enabled = true;
+
+        if (Card.sound === null)
+            Card.sound = new Sound('../src/sounds/card_flip.mp3');
     }
 
     buildCard() {
@@ -148,7 +197,6 @@ class Card {
             this.pos3 = e.clientX;
             this.pos4 = e.clientY;
             // set the element's new position:
-            //TODO: ask why I don't have access to this.rootElement in this scope
             this.rootElement.style.top = (this.rootElement.offsetTop - this.pos2) + "px";
             this.rootElement.style.left = (this.rootElement.offsetLeft - this.pos1) + "px";
         }
@@ -159,7 +207,6 @@ class Card {
             this.moved = false;
             e = e || window.event;
             e.preventDefault();
-            // get the mouse cursor position at startup:
             this.pos3 = e.clientX;
             this.pos4 = e.clientY;
 
@@ -173,7 +220,6 @@ class Card {
 
     closeDragElement() {
         if (this.enabled) {
-            // stop moving when mouse button is released:
             document.onmouseup = null;
             document.onmousemove = null;
         }
@@ -199,11 +245,9 @@ class Card {
     }
 
     disableDragDrop(){
-        debug.event("disabledDragDrop", "started");
         this.rootElement.draggable = false;
         this.rootElement.classList.remove('cursor-grab');
         this.rootElement.classList.add('cursor-default');
-        debug.log(`${this.rootElement.id} style='cursor-default'`);
 
         this.dragdropstart = null;
         this.rootElement.ondragstart = null;
@@ -213,7 +257,6 @@ class Card {
 
         this.ondragover = null;
         this.rootElement.ondragover = null;
-        debug.event("disabledDragDrop", "finished");
     }
 
 
@@ -230,49 +273,34 @@ class Card {
     }
 
     static givesDrop(event){
-        // needs to be static method
-        debug.func("givesDrop", "started");
         event.preventDefault();
-        debug.func("givesDrop", "finished");
     }
 
     static getsDrop(event){
-        // needs to be static method
-        debug.func("getsDrop", "started");
         event.preventDefault();
 
         let currentTargetId = event.currentTarget.id;
-        let targetId = event.target.id;
         let data = event.dataTransfer.getData("Text");
-
-        console.debug(`event.target.id = ${targetId}`);
-        console.debug(`event.currentTarget.id = ${currentTargetId}`);
-        console.debug(`event.dataTransfer.getData("Text") => ${data}`)
 
         if (currentTargetId === '' || currentTargetId === undefined)
             throw new Error("Current target must have an id");
         if (data === '' || data === undefined)
             throw new Error("Draggable object must have an id");
         event.target.appendChild(document.getElementById(data));
-        debug.func("getsDrop", "finished");
     }
 
     dragDropStart(event){
         if (this.enabled) {
-            debug.event("dragDropStart", "started");
             let currentTargetId = event.currentTarget.id;
             let targetId = event.target.id;
 
             debug.log(`started to drag the ${currentTargetId}`)
-            //debug.log(`event.target.id = ${targetId}`);
-            //debug.log(`event.currentTarget.id = ${currentTargetId}`);
 
             if (currentTargetId === '' || currentTargetId === undefined)
                 throw new Error("Current target must have an id");
 
             // transferring the id of the element (aka, this.rootElement.id)
             event.dataTransfer.setData("Text", event.currentTarget.id);
-            debug.event("dragDropStart", "finished");
         }
     }
 
@@ -329,42 +357,6 @@ class Card {
     }
 }
 
-function Sound(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.setAttribute('class', 'audio');
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.play = function(){
-        let promise = this.sound.play()
-        if (promise !== undefined){
-            promise.then(_=> {
-                debug.log("autoplay has started.");
-            }).catch(error => {
-                debug.error("Autoplay was prevented. Show a \"Play\" button so that user can start playback.")
-            })
-        }
-    }
-    this.pause = function(){
-        this.sound.pause();
-    }
-    this.stop = function(){
-        this.sound.stop();
-    }
-    this.restart = function(){
-        this.sound.start
-    }
-    this.mute = function (){
-        this.sound.muted = true;
-    }
-    this.unmute = function (){
-        this.sound.muted = false;
-    }
-    this.sound.addEventListener('ended', () => {
-       this.sound.currentTime = 0;
-    });
-}
+
 
 export { Card }

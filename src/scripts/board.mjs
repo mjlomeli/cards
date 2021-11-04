@@ -45,7 +45,6 @@ class Board {
             this.elementIndex[area] = div;
             this.rootElement.appendChild(div);
         });
-
     }
 
     enableDrop(area){
