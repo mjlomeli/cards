@@ -116,6 +116,9 @@ class SolitaireDeck extends Deck {
         this.veryEasyShuffle();
         this.shuffle(10);
     }
+    hardShuffle(){
+        this.shuffle();
+    }
 }
 
 export { SolitaireDeck }

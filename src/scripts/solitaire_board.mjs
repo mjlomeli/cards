@@ -88,7 +88,6 @@ class SolitaireBoard {
                 tableauElement.appendChild(card.rootElement);
             }
         }
-        console.log(`order: ${order}`);
 
         debug.func("createTableau", "finished")
     }
