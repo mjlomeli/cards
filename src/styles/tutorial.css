@@ -1,0 +1,146 @@
+
+.fade-in {
+    animation: fadeIn ease 5s;
+    opacity: 1;
+}
+
+.fade-out {
+    animation: fadeOut ease 5s;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+}
+
+.grid-item {
+    padding: 70px;
+    font-size: 100px;
+    text-align: center;
+}
+
+.audio-button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    font-size: 1em;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: radial-gradient(#076739, #212121);
+    overflow: hidden;
+}
+
+.moving-zone {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    width: 300px;
+    height: 120px;
+    margin: -60px 0 0 -150px;
+    perspective: 800px;
+}
+
+.popup {
+    display: flex;
+    width: 50em;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px 0 20px 0;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    background: -webkit-linear-gradient(top left, white 50%, #50ffa2 50%);
+    background: -moz-linear-gradient(top left, white 50%, #54cb54 50%);
+    background: -ms-linear-gradient(top left, white 50%, #69da5b 50%);
+    background: -o-linear-gradient(top left, white 50%, #8aff50 50%);
+    background: linear-gradient(top left, white 50%, #56ff50 50%);
+}
+
+
+.popup-content {
+    background: #444;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 15px 0 15px 0;
+}
+
+.popup-text {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 100;
+    text-align: center;
+    transform: translateZ(15px);
+}
+
+.moving-zone-mini {
+    position: absolute;
+    top: 75%;
+    left: 35%;
+    width: auto;
+    height: auto;
+    margin: auto;
+    perspective: 800px;
+}
+
+.popup-mini {
+    display: flex;
+    width: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px 0 20px 0;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    background: -webkit-linear-gradient(top left, white 50%, #50ff6d 50%);
+    background: -moz-linear-gradient(top left, white 50%, #52e752 50%);
+    background: -ms-linear-gradient(top left, white 50%, #69da5b 50%);
+    background: -o-linear-gradient(top left, white 50%, #8aff50 50%);
+    background: linear-gradient(top left, white 50%, #56ff50 50%);
+}
+
+
+.popup-content-mini {
+    background: #444;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px 0 10px 0;
+}
+
+.popup-text-mini {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    line-height: 15px;
+    font-weight: 100;
+    text-align: center;
+    transform: translateZ(15px);
+}

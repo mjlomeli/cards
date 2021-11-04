@@ -1,6 +1,7 @@
 import {debug, isBrowser, isNodeJs, openJson, projectDirectory} from "./utilities/utilities.mjs";
 
 class Card {
+    static sound = new Sound('../src/sounds/card_flip.mp3');
     static dropReceivers = {};
     constructor(frontImageUrl=null, backImageUrl=null){
         this.frontImageUrl = frontImageUrl;
@@ -92,20 +93,19 @@ class Card {
         if (!this.moved) {
             this.backElement.classList.toggle("flip");
             this.frontElement.classList.toggle("flip");
+            Card.sound.play();
         }
     }
 
     flipUp(){
         if (!this.isVisible()) {
-            this.backElement.classList.toggle("flip");
-            this.frontElement.classList.toggle("flip");
+            this.flip();
         }
     }
 
     flipDown(){
         if (this.isVisible()) {
-            this.backElement.classList.toggle("flip");
-            this.frontElement.classList.toggle("flip");
+            this.flip();
         }
     }
 
@@ -120,12 +120,13 @@ class Card {
         // this.backElement.classList.toggle('flip');
 
         //save the bounded function to be able to remove the event listener later.
-        this.onClick = this.flip.bind(this);
-        this.rootElement.addEventListener("click", this.onClick);
+        this.rootElement.addEventListener("click", () => {
+            this.flip();
+        });
     }
 
     disableFlippingOnClick() {
-        this.rootElement.removeEventListener("click", this.onClick)
+        this.rootElement.onclick = null;
     }
 
 
@@ -326,6 +327,44 @@ class Card {
         }
         return true;
     }
+}
+
+function Sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.setAttribute('class', 'audio');
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        let promise = this.sound.play()
+        if (promise !== undefined){
+            promise.then(_=> {
+                debug.log("autoplay has started.");
+            }).catch(error => {
+                debug.error("Autoplay was prevented. Show a \"Play\" button so that user can start playback.")
+            })
+        }
+    }
+    this.pause = function(){
+        this.sound.pause();
+    }
+    this.stop = function(){
+        this.sound.stop();
+    }
+    this.restart = function(){
+        this.sound.start
+    }
+    this.mute = function (){
+        this.sound.muted = true;
+    }
+    this.unmute = function (){
+        this.sound.muted = false;
+    }
+    this.sound.addEventListener('ended', () => {
+       this.sound.currentTime = 0;
+    });
 }
 
 export { Card }

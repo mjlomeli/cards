@@ -133,6 +133,13 @@ class debug {
             console.debug(`%c  EVNT  ` + `%c ${name}` + `%c: ${string}`, "background:purple;color:white", "color:purple", "color:black");
     }
 
+    static error(string){
+        if (isNodeJs())
+            console.debug(`\x1b[1;41;1m   ERR  \x1b[0m \x1b[31m$${string}\x1b[0m`);
+        else if (isBrowser())
+            console.debug(`%c   ERR  ` + `%c ${string}`, "background:red;color:white", "color:red");
+    }
+
 }
 
 

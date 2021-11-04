@@ -52,6 +52,7 @@ class SolitaireGame {
             this.board.board.elementIndex["talon"].appendChild(card.rootElement);
             card.enableDragDrop();
             card.rootElement.ondragover = SolitaireGame.onDragOver.bind(this, card);
+            Card.sound.play();
         }
         debug.func("draw", "ended");
     }
