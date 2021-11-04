@@ -48,32 +48,65 @@ of concept.
 
 Split the objects into 5 modules:
 
-1. Card
+1. Sound
+#### Creates the sound in the background using mp3 audio.
+The program is compliant with Google's user interaction requirements. To enable 
+the sound the program is always muted at startup until the user clicks to unmute.
+
+```javascript
+let sound = new Sound(audioPath);
+sound.play();
+```
+
+#### Compliance Section
+```javascript
+play(){
+     let promise = this.sound.play()
+     if (promise !== undefined){
+         promise.then(_=> {
+             // it worked
+         }).catch(error => {
+             // Required to catch by Google's compliance.
+             console.warn("Press the unmute button on the top left to hear audio.");
+         })
+     }
+}
+```
+
+2. Card
     - Has a shape
     - Front face image
     - Back face image
     - Flippable
     - Id
     - Draggable
-2. Deck
+
+```javascript
+let card = new Card(frontImagePath, backImagePath);
+
+// Flipping the card
+card.flip()
+```
+
+3. Deck
     - Is a data structure of Cards.
     - Shuffles
     - Draws card(s)
-3. Board
+4. Board
     - Links cards to positions on a grid.
     - Background
     - Datastructures are hash optimized.
-4. Game
+5. Game
     - Player takes turns to solve the game.
     - Is all the logic for making the rules of the game.
-5. Utilities
+6. Utilities
     - Cartesian product
     - Immutable matrix multiplication.
     - Checks system for compatible environments (e.g. Web or NodeJs).
     - Debugging tools.
     - Proxy tools for more customizations.
     - Directory and file operations.
-6. Tutorial
+7. Tutorial
    - Display instructions for the player to learn how to play.
    - Pops up quotes.
 
