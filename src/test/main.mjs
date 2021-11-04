@@ -8,6 +8,7 @@ var main = function(){
     // code to run
     document.addEventListener("DOMContentLoaded", async () => {
         document.body.appendChild(profile())
+        Card.initSound();
 
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -21,7 +22,7 @@ var main = function(){
         m.className = "fa fa-volume-mute"
         m.id = "audio-icon";
         audioButton.appendChild(m);
-        Card.sound.sound.muted = true;
+        Card.sound.mute()
 
         audioButton.addEventListener('click', (e) => {
             if(audio_context.state === 'running') {
