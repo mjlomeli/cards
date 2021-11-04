@@ -24,24 +24,22 @@ of concept.
 
 * Drag and drop_test
 * Card selection
-* Reset game
-* Visualize score
+* Restart the game after finishing.
 * More TBA after completion of above
 
 ### In addition, this project will include:
 
 * A comprehensive README
 * Instructional guide
-* API referencing image and card data
 
 ### Technologies, Libraries, APIs
 
-* Looking into sound libraries
-* Looking into animation renderers (sfx)
+* Used a mp3 to make sounds of the cards.
+* Made a version of the Cartesian Product from Python's documentation.
 
 ## Structure
 
-Have split the objects into 5 modules:
+Split the objects into 5 modules:
 
 1. Card
     - Has a shape
@@ -57,7 +55,7 @@ Have split the objects into 5 modules:
 3. Board
     - Links cards to positions on a grid.
     - Background
-    - Datastructure is hash optimized.
+    - Datastructures are hash optimized.
 4. Game
     - Player takes turns to solve the game.
     - Is all the logic for making the rules of the game.
@@ -66,7 +64,7 @@ Have split the objects into 5 modules:
     - Immutable matrix multiplication.
     - Checks system for compatible environments (e.g. Web or NodeJs).
     - Debugging tools.
-    - Proxy tools.
+    - Proxy tools for more customizations.
     - Directory and file operations.
 6. Tutorial
    - Display instructions for the player to learn how to play.
@@ -120,7 +118,7 @@ Have split the objects into 5 modules:
 
 - [ ] Instructions on how to play/interact with the project.
 
-- [x] List of technologies / libraries / APIs used.
+- [x] List of technologies / libraries.
 
 - [ ] Technical implementation details with (good-looking) code snippets.
 
@@ -147,7 +145,7 @@ Have split the objects into 5 modules:
          <label>Mentor</label>
       </td>
       <td id="paulo" align="center">
-         <a href="#">
+         <a href="https://www.linkedin.com/in/paulo-bocanegra">
          <img src="https://secure.gravatar.com/avatar/c90a96bff8b9b6d8b373f26e17851899?secure=true&size=300" width="100px;" alt=""/><br />
          <sub><b>Paulo Bocanegra</b></sub></a><br />
          <label>Debugging</label>
