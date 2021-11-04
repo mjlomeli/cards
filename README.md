@@ -92,13 +92,45 @@ card.flip()
     - Is a data structure of Cards.
     - Shuffles
     - Draws card(s)
+
+```javascript
+let deck = new Deck();
+
+// Drawing n cards
+let n = 5;
+let fiveCards = deck.draw(5)
+
+// Drawing with callback
+let fiveSpades = deck.draw(5, (card) => card.suit === 'spades');
+
+// Shuffling
+deck.shuffle();
+```
+
 4. Board
     - Links cards to positions on a grid.
     - Background
     - Datastructures are hash optimized.
+```javascript
+let board = new Board();
+await board.buildBoard();
+
+// Get the Stock stack
+let stock = board.deckIndex['stock'];
+
+// Get the Talon elements
+let talon = board.elementIndex['talon'];
+```
+
 5. Game
     - Player takes turns to solve the game.
     - Is all the logic for making the rules of the game.
+```javascript
+let game = new Game();
+await game.buildGame();
+document.body.appendChild(game.rootelement);
+```
+
 6. Utilities
     - Cartesian product
     - Immutable matrix multiplication.
@@ -106,6 +138,29 @@ card.flip()
     - Debugging tools.
     - Proxy tools for more customizations.
     - Directory and file operations.
+
+```javascript
+//Cartesian product
+product(['ace', 1], ['hearts', 'spades'])
+
+//>> [['ace', 'hearts'], ['ace', ['spades'], [1, 'hearts'], [1, 'spades']]
+```
+
+```javascript
+//Proxy: traps the 'in' operator
+let Handler = {
+   has(target, key) {
+      let found = Reflect.has(...arguments);
+      return found || target.foundations.includes(key);
+   }
+}
+let board = new Proxy(Board, Handler);
+
+console.log('ace' in board)
+//>> true
+```
+
+
 7. Tutorial
    - Display instructions for the player to learn how to play.
    - Pops up quotes.
@@ -160,7 +215,7 @@ card.flip()
 
 - [x] List of technologies / libraries.
 
-- [ ] Technical implementation details with (good-looking) code snippets.
+- [x] Technical implementation details with (good-looking) code snippets.
 
 - [x] To-dos / future features.
 

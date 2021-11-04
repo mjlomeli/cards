@@ -97,6 +97,9 @@ function openJson(path) {
 
 
 class debug {
+    /*
+        These are tools which help with debugging. They are not used in production.
+    */
     static func(name, string){
         if (isNodeJs())
             console.debug(`\x1b[37;45;1m   FUNC  \x1b[0m \x1b[35m${name}: ${string}\x1b[0m`);

@@ -1,3 +1,7 @@
+/*
+    These are tools which help with debugging. They are not used in production.
+ */
+
 const StaticHandler = {
     // Traps the 'new' operator and runs before running the constructor
     construct(target, args) {

@@ -1,3 +1,7 @@
+/*
+    These are tools which help with debugging. They are not used in production.
+ */
+
 const InstanceHandler = {
     // traps the 'delete' operator
     deleteProperty(target, prop) {
