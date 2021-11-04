@@ -243,7 +243,7 @@ class Card {
 
     dragDropStart(event){
         if (this.enabled) {
-            debug.func("dragDropStart", "started");
+            debug.event("dragDropStart", "started");
             let currentTargetId = event.currentTarget.id;
             let targetId = event.target.id;
 
@@ -256,7 +256,7 @@ class Card {
 
             // transferring the id of the element (aka, this.rootElement.id)
             event.dataTransfer.setData("Text", event.currentTarget.id);
-            debug.func("dragDropStart", "finished");
+            debug.event("dragDropStart", "finished");
         }
     }
 

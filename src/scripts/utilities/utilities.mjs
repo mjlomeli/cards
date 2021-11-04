@@ -113,9 +113,9 @@ class debug {
 
     static condition(condition, string){
         if (isNodeJs())
-            console.debug(`\x1b[37;44;1m   ${condition.toUpperCase()}   \x1b[0m \x1b[34m${string}\x1b[0m`);
+            console.debug(`\x1b[37;46;1m   ${condition.toUpperCase()}   \x1b[0m \x1b[34m${string}\x1b[0m`);
         else if (isBrowser())
-            console.debug("%c  COND  " + `%c ${condition} (` + `%c${string}` + `%c)` + "%c => true", `background:purple;color:white`, `color:purple`, "color:black", `color:purple`, "color: black");
+            console.debug("%c  COND  " + `%c ${condition} (` + `%c${string}` + `%c)` + "%c => true", `background:#00AAAA;color:white`, `color:blue`, "color:black", `color:blue`, "color: blue");
 
     }
 
@@ -124,6 +124,13 @@ class debug {
             console.debug(`\x1b[37;42;1m   DATA   \x1b[0m \x1b[32m${name}=> ${string}\x1b[0m`);
         else if (isBrowser())
             console.debug(`%c  DATA  ` + `%c ${name} = ` + `%c${JSON.stringify(string)}`, "background:green;color:white", "color:green", "color:black");
+    }
+
+    static event(name, string){
+        if (isNodeJs())
+            console.debug(`\x1b[1;45;1m  EVNT  \x1b[0m \x1b[37m${name}: ${string}\x1b[0m`);
+        else if (isBrowser())
+            console.debug(`%c  EVNT  ` + `%c ${name}: ${string}`, "background:purple;color:white", "color:black");
     }
 
 }

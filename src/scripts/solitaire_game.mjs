@@ -107,10 +107,10 @@ class SolitaireGame {
         let targetId = event.target.id;
         let data = event.dataTransfer.getData("Text");
 
-        debug.data("event.target", event.target);
-        debug.data(`event.target.id`, targetId);
-        debug.data(`event.currentTarget.id`, currentTargetId);
-        debug.data(`event.dataTransfer.getData("Text")`, data);
+        //debug.data("event.target", event.target);
+        //debug.data(`event.target.id`, targetId);
+        //debug.data(`event.currentTarget.id`, currentTargetId);
+        //debug.data(`event.dataTransfer.getData("Text")`, data);
 
         debug.log(`${currentTargetId} is getting ${data}`);
 
@@ -123,7 +123,7 @@ class SolitaireGame {
             debug.condition("if", "this != undefined");
             let element = document.getElementById(data)
             let fromDeck = element.dataset.deck
-            debug.data("element.dataset.deck", fromDeck);
+            //debug.data("element.dataset.deck", fromDeck);
             await SolitaireGame.drawFromDeckTo(this.board, fromDeck, currentTargetId);
             event.currentTarget.appendChild(element);
         }
