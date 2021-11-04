@@ -56,11 +56,16 @@ function introduction(nextElementTransition) {
     elementRoot.appendChild(rulesHeader);
 
     let p1 = document.createElement('p');
-    p1.textContent = "Your may transfer any top card  faced up  to any of the piles but maintain the sequence of descending value and alternating color. An empty spot in the Tableau may be filled with a king. If you cannot move any cards from the Tableau, 1 card may be drawn from the Stock pile and placed in the Talon.";
+    p1.textContent = "Your may transfer any top card  faced up  to any of the piles but maintain the "+
+        "sequence of descending value and alternating color. An empty spot in the Tableau may be " +
+        "filled with a king. If you cannot move any cards from the Tableau, "+
+        " 1 card may be drawn from the Stock pile and placed in the Talon.";
     elementRoot.appendChild(p1);
 
     let p2 = document.createElement('p');
-    p2.textContent = "When foundations have been filled in ascending order (Ace to King with the same colors), the game is won. If no more moves can be made and the Foundations is incomplete, the game is lost.";
+    p2.textContent = "When foundations have been filled in ascending order (Ace to King with the "+
+        "same colors), the game is won. If no more moves can be made and "+
+        "the Foundations is incomplete, the game is lost.";
     elementRoot.appendChild(p2);
 
     let p3 = document.createElement('p');
@@ -88,8 +93,8 @@ function movement(e) {
     let popup = document.querySelector('.popup');
     let popupMini = document.querySelector('.popup-mini');
 
-    var moveForce = 30; // max popup movement in pixels
-    var rotateForce = 15; // max popup rotation in deg
+    var moveForce = 30;
+    var rotateForce = 15;
 
 
     var docX = document.body.clientWidth;

@@ -1,14 +1,281 @@
-/*!******************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./src/styles/example.css ***!
-  \******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./src/styles/card.css ***!
+  \***************************************************************************************************/
 
 
-#main {
-    color: blue;
+.card {
+    display: flex;
+    text-align: center;
+    perspective: 150rem;
+    width: 1em;
+    background: none;
+    box-shadow: none;
+    user-select: none;
 }
+
+.card-slide {
+    height: 0.2em;
+}
+
+.card img{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+.card-side {
+    transition: all 0.4s ease;
+    backface-visibility: hidden;
+    position: absolute;
+    object-fit: cover;
+}
+
+
+.flip {
+    transform: rotateY(180deg);
+}
+
+.cursor-grab {
+    cursor: grab;
+}
+
+.cursor-default{
+    cursor: default;
+}
+
+.cursor-pointer-loading{
+    cursor: progress;
+}
+
+.cursor-loading{
+    cursor: wait;
+}
+/*!***************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./src/styles/main.css ***!
+  \***************************************************************************************************/
+.grid-container {
+    position: absolute;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10%;
+}
+
+.grid-item {
+    padding: 70%;
+    font-size: 100px;
+    text-align: center;
+}
+
+.audio-button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+#audio-icon{
+    color: white;
+    font-size: 1.4em;
+}
+
+html, body { height: 100%; }
+body {
+    margin: 0;
+    background: radial-gradient(#076739, #222);
+    overflow: hidden;
+}
+
+.moving-zone {
+    position: absolute;
+    top:80%; left:50%;
+    width:300px; height:120px;
+    margin: -60px 0 0 -150px;
+    perspective: 800px;
+}
+
+/*!*******************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./src/styles/tutorial.css ***!
+  \*******************************************************************************************************/
+
+.fade-in {
+    animation: fadeIn ease 5s;
+    opacity: 1;
+}
+
+.fade-out {
+    animation: fadeOut ease 5s;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+}
+
+.grid-item {
+    padding: 70px;
+    font-size: 100px;
+    text-align: center;
+}
+
+.audio-button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    font-size: 1em;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: radial-gradient(#076739, #212121);
+    overflow: hidden;
+}
+
+.moving-zone {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    width: 300px;
+    height: 120px;
+    margin: -60px 0 0 -150px;
+    perspective: 800px;
+    user-select: none;
+}
+
+.popup {
+    display: flex;
+    width: 50em;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px 0 20px 0;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    background: -webkit-linear-gradient(top left, white 50%, #50ffa2 50%);
+    background: -moz-linear-gradient(top left, white 50%, #54cb54 50%);
+    background: -ms-linear-gradient(top left, white 50%, #69da5b 50%);
+    background: -o-linear-gradient(top left, white 50%, #8aff50 50%);
+    background: linear-gradient(top left, white 50%, #56ff50 50%);
+}
+
+
+.popup-content {
+    background: #444;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 15px 0 15px 0;
+}
+
+.popup-text {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 100;
+    text-align: center;
+    transform: translateZ(15px);
+    cursor: default;
+    user-select: none;
+}
+
+.moving-zone-mini {
+    position: absolute;
+    top: 80%;
+    left: 37%;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    justify-content: center;
+    align-content: center;
+    perspective: 800px;
+    user-select: none;
+}
+
+.popup-mini {
+    display: flex;
+    width: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px 0 20px 0;
+    transform-style: preserve-3d;
+    /* backups */
+    background: -webkit-linear-gradient(top left, white 50%, #50ff6d 50%);
+    background: -moz-linear-gradient(top left, white 50%, #52e752 50%);
+    background: -ms-linear-gradient(top left, white 50%, #69da5b 50%);
+    background: -o-linear-gradient(top left, white 50%, #8aff50 50%);
+    background: linear-gradient(top left, white 50%, #56ff50 50%);
+}
+
+
+.popup-content-mini {
+    background: #444;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px 0 10px 0;
+    cursor:default;
+}
+
+.popup-text-mini {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    line-height: 15px;
+    font-weight: 100;
+    text-align: center;
+    transform: translateZ(15px);
+    cursor: default;
+}
+
+/* profile */
+
+.link-image{
+    width: 10%;
+    height: 10%;
+}
+
+.git-image{
+    width: 9%;
+    height: 9%;
+    margin-right: 3%;
+}
+
+.profile{
+    position: absolute;
+    bottom: 0px;
+    right: -41em;
+    margin-right: 1%;
+    user-select: none;
+}
+
 /*!*************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
   \*************************************************************************************************************************************/
-h1 {
-  color: blue;
-}
+

@@ -11,7 +11,6 @@ class SolitaireGame {
     constructor() {
         this.board = null;
         this.rootElement = null;
-
         this.onStockClick = null;
     }
 
@@ -40,11 +39,11 @@ class SolitaireGame {
     }
 
     async draw() {
-        debug.func("draw", "started");
+        
         if (this.board.stock.length() === 1) {
             this.board.stockCard.flipUp();
             this.disableStockDrawOnClick();
-            debug.log("last card drew");
+            
         }
         if (this.board.stock.length() > 0) {
             await SolitaireGame.drawFromDeckTo(this.board, "stock", "talon");
@@ -55,90 +54,51 @@ class SolitaireGame {
             card.rootElement.ondragover = SolitaireGame.onDragOver.bind(this, card);
             Card.sound.play();
         }
-        debug.func("draw", "ended");
+        
     }
 
     enableStockDrawOnClick() {
-        debug.func("enableStockDrawOnClick", "started")
-        // if the backside card isn't already flipped, it must be flipped
-        // but our createElement will already flip it for us.
-        // this.backElement.classList.toggle('flip');
-
-        //save the bounded function to be able to remove the event listener later.
         this.onStockClick = this.draw.bind(this);
         this.board.stockElement.addEventListener("click", this.onStockClick);
         this.board.stockElement.classList.add("cursor-grab");
         this.board.stockElement.classList.remove('cursor-default');
-        debug.func("enableStockDrawOnClick", "finished")
     }
 
     disableStockDrawOnClick() {
-        debug.event("disableStockDrawOnClick", "started");
         this.board.stockElement.removeEventListener("click", this.onStockClick)
         this.board.stockElement.classList.remove('cursor-grab');
         this.board.stockElement.classList.add('cursor-default');
-        debug.log(`${this.board.stockElement.id} style='cursor-default'`);
-        debug.event("disableStockDrawOnClick", "finished");
     }
 
     static enableGetsDrop(indexId, element, game) {
-        debug.func("enableGetsDrop", "started")
         SolitaireGame.dropReceivers[indexId] = element;
         element.ondrop = SolitaireGame.getsDrop.bind(game);
         element.ondragover = SolitaireGame.givesDrop.bind(game);
-
-        debug.log(`enabled getsDrop from ${indexId}`)
-        debug.func("enableGetsDrop", "ended")
     }
 
     static disableGetsDrop(indexId) {
-        debug.func("disableGetsDrop", "started")
         SolitaireGame.dropReceivers[indexId].ondrop = null;
         SolitaireGame.dropReceivers[indexId].ondragover = null;
         delete SolitaireGame.dropReceivers[indexId];
-
-        debug.log(`removed getsDrop from ${indexId}`)
-        debug.func("disableGetsDrop", "ended");
     }
 
     static givesDrop(event) {
-        //debug.func("givesDrop", "started");
         event.preventDefault();
-
-
-        let currentTargetId = event.currentTarget.id;
-        let targetId = event.target.id;
-        let data = event.dataTransfer.getData("Text");
-
-        //debug.data("event.target", event.target);
-        //debug.data(`event.target.id`, targetId);
-        //debug.data(`event.currentTarget.id`, currentTargetId);
-        //debug.data(`event.dataTransfer.getData("Text")`, data);
-
-        //debug.func("givesDrop", "ended");
     }
 
     static async getsDrop(event) {
-        // needs to be static method
-        debug.event("getsDrop", "started");
         event.preventDefault();
 
         let currentTargetId = event.currentTarget.id;
-        let targetId = event.target.id;
         let data = event.dataTransfer.getData("Text");
 
-        debug.log(`${currentTargetId} is getting ${data}`);
-
         if (this !== undefined && this.isValidMove(currentTargetId, data)) {
-            debug.condition("if", "this !== undefined");
             let element = document.getElementById(data)
             let fromDeck = element.dataset.deck
             await SolitaireGame.drawFromDeckTo(this.board, fromDeck, currentTargetId);
             event.currentTarget.appendChild(element);
             onGameOver(this);
         }
-
-        debug.event("getsDrop", "ended");
     }
 
     isValidMove(deckName, cardId){
@@ -153,7 +113,7 @@ class SolitaireGame {
         let deck = this.board.foundationDeckIndex[deckName];
         if (!card.fitsFoundationOrder(deck) || deckName !== card.suit)
             return false;
-        debug.condition(`isValidFoundationMove(${deckName}, ${cardId})`, "=> true");
+        
         card.disableDragDrop();
         card.rootElement.classList.remove('card-slide');
         return true;
@@ -166,19 +126,12 @@ class SolitaireGame {
         let deck = this.board.tableauBoard.deckIndex[deckName];
         if (!card.fitsTableauOrder(deck))
             return false;
-        debug.condition(`isValidTableauMove(${deckName}, ${cardId})`, "=> true");
         card.rootElement.classList.add('card-slide');
         return true;
     }
 
     static onDragOver(heldCard, event){
-        debug.event('onDragOver', 'started');
-        let currentTargetId = event.currentTarget.id;
-        debug.log(`Hovering over ${currentTargetId}`);
-        let bottomCard = document.getElementById(currentTargetId);
-
-
-        debug.event('onDragOver', 'ended')
+        // not needed yet
     }
 
 
@@ -188,23 +141,18 @@ class SolitaireGame {
         if (fromDeck.length() > 0) {
             let cards = await fromDeck.draw()
             let card = cards[0];
-            debug.log(`Drew ${card.rootElement.id} from ${fromDeckName}.`);
             if (toDeck.length() > 0) {
                 toDeck.top().disableDragDrop();
-                debug.log(`Disabled drag & drop for ${toDeck.top().rootElement.id}.`)
             }
             if (fromDeckName !== "stock" && fromDeck.length() > 0){
                 let fromCard = fromDeck.top();
                 if (!fromCard.isVisible()) {
                     fromCard.flipUp();
-                    debug.log(`Flipped the top of ${fromDeckName} and it was ${fromCard.rootElement.id}.`);
                 }
                 fromCard.enableDragDrop();
-                debug.log(`Enabled drag & drop for ${fromCard.rootElement.id}.`);
             }
             SolitaireBoard.setDeckData(card, toDeckName);
             toDeck.addToTop(card);
-            debug.log(`Moved ${card.rootElement.id} to ${toDeckName}.`);
         }
     }
 

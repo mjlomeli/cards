@@ -22,7 +22,7 @@ class SolitaireBoard {
         this.tableauElement = null;
 
         this.foundations = ['hearts', 'diamonds', 'spades', 'clubs'];
-        this.foundationCardIndex = null; // finished cards
+        this.foundationCardIndex = null;
         this.foundationDeckIndex = null;
 
         this.stock = null; // the face down deck
@@ -38,7 +38,6 @@ class SolitaireBoard {
 
 
     async buildSolitaireBoard() {
-        debug.func("buildSolitaireBoard", "started")
         this.board = new Board('stock talon hearts clubs diamonds spades',
             'tableau tableau tableau tableau tableau tableau');
         this.board.buildBoard();
@@ -50,11 +49,9 @@ class SolitaireBoard {
         this.createStock();
         this.createTalon();
         await this.createTableau();
-        debug.func("buildSolitaireBoard", "finished")
     }
 
     async createTableau() {
-        debug.func("createTableau", "started")
         this.tableauBoard = new Board('tableau1 tableau2 tableau3 tableau4 tableau5 tableau6 tableau7');
         this.tableauBoard.buildBoard();
         this.tableauElement = this.tableauBoard.rootElement;
@@ -90,11 +87,11 @@ class SolitaireBoard {
             }
         }
 
-        debug.func("createTableau", "finished")
+        
     }
 
     createFoundations() {
-        debug.func("createFoundations", "started")
+        
         // hearts blank card
         let hearts = new Card(
             '../src/themes' + SolitaireBoard.solitaireJSON['hearts']['foundation'],
@@ -130,11 +127,10 @@ class SolitaireBoard {
         this.foundationCardIndex = {'hearts': hearts, 'spades': spades, 'diamonds': diamonds, 'clubs': clubs};
         this.foundationDeckIndex = Object.fromEntries(this.foundations.map(f => [f, new Deck()]));
 
-        debug.func("createFoundations", "finished")
+        
     }
 
     createStock(){
-        debug.func("createStock", "started")
         this.stock = new SolitaireDeck();
         if (this.difficulty === 'hard')
             this.stock.hardShuffle();
@@ -151,11 +147,10 @@ class SolitaireBoard {
 
         this.board.elementIndex['stock'].appendChild(this.stockElement);
         this.board.deckIndex['stock'] = this.stock;
-        debug.func("createStock", "finished")
+        
     }
 
     createTalon(){
-        debug.func("createTalon", "started")
         this.talon = new Deck(); // drawn the face up cards
 
         this.talonCard = new Card(
@@ -166,7 +161,6 @@ class SolitaireBoard {
         this.talonElement.id = "talon";
         this.board.elementIndex['talon'].appendChild(this.talonElement);
         this.board.deckIndex['talon'] = this.talon;
-        debug.func("createdTalon", "finished")
     }
 
     static setDeckData(card, deckName){
