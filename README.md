@@ -20,8 +20,8 @@ Released under [MIT](/LICENSE) by [@Mauricio](https://github.com/mjlomeli).
 This is a recreation of the Solitaire card game entirely out of Javascript and HTML5. Its primary purpose is as a proof
 of concept.
 
-#Welcome to MoveItThere!
-##Rules
+# Welcome to MoveItThere!
+## Rules
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You may transfer any top card  faced up  to any of the piles but maintain the sequence of descending value and alternating color. An empty spot in the Tableau may be filled with a king. If you cannot move any cards from the Tableau, 1 card may be drawn from the Stock pile and placed in the Talon.<p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When foundations have been filled in ascending order (Ace to King with the same colors), the game is won. If no more moves can be made and the Foundations is incomplete, the game is lost.
