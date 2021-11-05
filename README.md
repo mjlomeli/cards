@@ -3,7 +3,7 @@
 [![issues - cards](https://img.shields.io/github/issues/mjlomeli/cards)](https://github.com/mjlomeli/cards/issues)
 <div align="left">
 
-[![VIEW SITE - UP](https://img.shields.io/static/v1?label=VIEW+SITE&message=UP&color=D56049&style=for-the-badge&logo=digitalocean)](https://mjlomeli.github.io/cards/)
+[![VIEW SITE - UP](https://img.shields.io/badge/VIEW_SITE-UP-2ea44f?style=for-the-badge&logo=githubpages)](https://mjlomeli.github.io/cards/)
 
 </div>
 
