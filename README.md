@@ -256,5 +256,11 @@ console.log('ace' in board)
          <sub><b>Mike Madsen</b></sub></a><br />
          <label>Debugging</label>
       </td>
+      <td id="lee" align="center">
+         <a href="https://github.com/lyhourlay1">
+         <img src="https://avatars.githubusercontent.com/u/61680337?v=4" width="100px;" alt=""/><br />
+         <sub><b>Lyhour(Lee) Lay</b></sub></a><br />
+         <label>Debugging</label>
+      </td>
    </tr>
 </table>
