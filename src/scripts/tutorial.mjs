@@ -154,7 +154,7 @@ function profile(){
     let linkedin = document.createElement('a');
     linkedin.href = "https://www.linkedin.com/in/mauricio-lomeli-759796172";
     let linkImage = document.createElement('img');
-    linkImage.src = "../src/themes/profile/linkedin.png";
+    linkImage.src = "src/themes/profile/linkedin.png";
     linkImage.alt = "linkedin logo";
     linkImage.className = "link-image";
     linkedin.appendChild(linkImage);
@@ -163,7 +163,7 @@ function profile(){
     let github = document.createElement('a');
     github.href = "https://github.com/mjlomeli"
     let gitImage = document.createElement('img');
-    gitImage.src = "../src/themes/profile/github.svg";
+    gitImage.src = "src/themes/profile/github.svg";
     gitImage.alt = "github logo";
     gitImage.className = "git-image";
     github.appendChild(gitImage);
