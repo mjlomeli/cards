@@ -108,7 +108,7 @@ class SolitaireCard extends Card {
         if (typeof other !== typeof this)
             throw new Error(`Can't compare ${other} to ${this}.`);
         if (other.suit !== this.suit) {
-            console.warn(`\x1b[33m[WARNING]: Compared both cards but they don't have the same suit: \n\t${this.repr()}\n\t${other.repr()}\x1b[0m`);
+            // a warning should be raised but removed by request.
             return null;
         }
         let this_integer = this.integer_value();
