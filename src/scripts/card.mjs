@@ -76,7 +76,7 @@ class Card {
         this.enabled = true;
 
         if (Card.sound === null)
-            Card.sound = new Sound('../src/sounds/card_flip.mp3');
+            Card.sound = new Sound('src/sounds/card_flip.mp3');
     }
 
     buildCard() {

@@ -17,8 +17,8 @@ var main = function(){
         board.index['stock'].getElementsByTagName('h3')[0].remove();
         board.disableDrop('stock');
 
-        let front = '../src/themes/solitaire/empty.svg';
-        let back = '../src/themes/solitaire/empty.svg'
+        let front = 'src/themes/solitaire/empty.svg';
+        let back = 'src/themes/solitaire/empty.svg'
         let card = new Card(front, back);
         card.buildCard();
         // need to add the id of the card

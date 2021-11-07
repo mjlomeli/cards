@@ -6,8 +6,8 @@ let mainNodeJs = function(){}
 let mainBrowser = function(){
 
     document.addEventListener("DOMContentLoaded", async () => {
-        let front = '../src/themes/solitaire/diamonds/2_of_diamonds.svg';
-        let back = '../src/themes/solitaire/backside.svg'
+        let front = 'src/themes/solitaire/diamonds/2_of_diamonds.svg';
+        let back = 'src/themes/solitaire/backside.svg'
         let card = new Card(front, back);
         card.buildCard();
         card.enableFlippingOnClick();
