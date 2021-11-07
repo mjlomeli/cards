@@ -1,5 +1,5 @@
-[![VIEW SITE - RUNNING](https://img.shields.io/badge/VIEW_SITE-RUNNING-2ea44f?style=for-the-badge&logo=github)](https://mjlomeli.github.io/cards/)
-# Cards
+
+# Cards [![VIEW SITE - RUNNING](https://img.shields.io/badge/VIEW_SITE-RUNNING-2ea44f?style=for-the-badge&logo=github)](https://mjlomeli.github.io/cards/)
 
 ## License
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
