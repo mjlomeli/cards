@@ -19,7 +19,7 @@ class Sound {
             promise.then(_=> {
                 // it worked
             }).catch(error => {
-                console.warn("Press the unmute button on the top left to hear audio.");
+                // removed warning due to requests
             })
         }
     }
@@ -293,8 +293,6 @@ class Card {
         if (this.enabled) {
             let currentTargetId = event.currentTarget.id;
             let targetId = event.target.id;
-
-            debug.log(`started to drag the ${currentTargetId}`)
 
             if (currentTargetId === '' || currentTargetId === undefined)
                 throw new Error("Current target must have an id");

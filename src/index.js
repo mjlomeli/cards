@@ -29,7 +29,7 @@ var main = function(){
                 audio_context.suspend();
             } else if(audio_context.state === 'suspended') {
                 audio_context.resume().then(function() {
-                    debug.condition("Audio Context Resumed", "");
+                    // resumed
                 });
             }
             if (Card.sound.sound.muted)

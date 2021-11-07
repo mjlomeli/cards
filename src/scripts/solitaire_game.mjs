@@ -231,7 +231,6 @@ function onGameOver(game){
         let box = popupIntroBox(div)
 
         async function hardGame(box, e) {
-            console.log(box, e);
             game.rootElement.remove();
             game = new SolitaireGame();
             window.game = game; // for debugging
