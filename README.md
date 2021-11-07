@@ -9,9 +9,8 @@ Released under [MIT](/LICENSE) by [@Mauricio](https://github.com/mjlomeli).
 
 **Email** : [Mauricio](mailto:mauricio.jr.lomeli@gmail.com)
 
-<br>
 
-### Browser Compatibility
+## Browser Compatibility
 [![Chrome - Compatible](https://img.shields.io/badge/Chrome-Compatible-brightgreen?style=for-the-badge&logo=google+chrome)](https://www.google.com/chrome/)
 
 [![firefox - Compatible](https://img.shields.io/badge/firefox-Compatible-brightgreen?style=for-the-badge&logo=firefox)](https://www.mozilla.org/)
