@@ -1,19 +1,28 @@
-[![mjlomeli - cards](https://img.shields.io/static/v1?label=mjlomeli&message=cards&color=blue&logo=github)](https://github.com/mjlomeli/cards)
-[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
-[![issues - cards](https://img.shields.io/github/issues/mjlomeli/cards)](https://github.com/mjlomeli/cards/issues)
-<div align="left">
-
-[![VIEW SITE - UP](https://img.shields.io/badge/VIEW_SITE-UP-2ea44f?style=for-the-badge&logo=github)](https://mjlomeli.github.io/cards/)
-
-</div>
-
+[![VIEW SITE - RUNNING](https://img.shields.io/badge/VIEW_SITE-RUNNING-2ea44f?style=for-the-badge&logo=github)](https://mjlomeli.github.io/cards/)
 # Cards
 
 ## License
+[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+[![issues - cards](https://img.shields.io/github/issues/mjlomeli/cards)](https://github.com/mjlomeli/cards/issues)
 
 Released under [MIT](/LICENSE) by [@Mauricio](https://github.com/mjlomeli).
 
 **Email** : [Mauricio](mailto:mauricio.jr.lomeli@gmail.com)
+
+<br>
+
+### Browser Compatibility
+[![Chrome - Compatible](https://img.shields.io/badge/Chrome-Compatible-brightgreen?style=for-the-badge&logo=google+chrome)](https://www.google.com/chrome/)
+
+[![firefox - Compatible](https://img.shields.io/badge/firefox-Compatible-brightgreen?style=for-the-badge&logo=firefox)](https://www.mozilla.org/)
+
+[![opera - Compatible](https://img.shields.io/badge/opera-Compatible-success?style=for-the-badge&logo=opera&logoColor=red)](https://www.opera.com/)
+
+[![safari - Not Compatible](https://img.shields.io/badge/safari-Not_Compatible-critical?style=for-the-badge&logo=safari&logoColor=blue)](https://www.apple.com/safari/)
+
+
+
+<br>
 
 ## Purpose
 
@@ -22,17 +31,16 @@ of concept.
 
 # Welcome to MoveItThere!
 ## Rules
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You may transfer any top card  faced up  to any of the piles but maintain the sequence of descending value and alternating color. An empty spot in the Tableau may be filled with a king. If you cannot move any cards from the Tableau, 1 card may be drawn from the Stock pile and placed in the Talon.<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You may drag any top card faced up to any of the piles but maintain the sequence of descending value and alternating color. An empty spot in the Tableau may be filled with a king. If you cannot move any cards from the Tableau, 1 card may be drawn from the Stock pile and placed in the Talon.<p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When foundations have been filled in ascending order (Ace to King with the same colors), the game is won. If no more moves can be made and the Foundations is incomplete, the game is lost.
 
 
 ### In Cards, users will be able to:
 
-* Drag and drop_test
-* Card selection
-* Restart the game after finishing.
-* More TBA after completion of above
+* Drag and drop.
+* Draw from a deck.
+* Restart a game after finishing.
 
 ### In addition, this project will include:
 
@@ -59,6 +67,7 @@ sound.play();
 ```
 
 #### Compliance Section
+In compliance with Chrome's autoplay policy. More can be found: https://developer.chrome.com/blog/autoplay/#webaudio
 ```javascript
 function play(){
      let promise = this.sound.play()
