@@ -17,7 +17,7 @@ Released under [MIT](/LICENSE) by [@Mauricio](https://github.com/mjlomeli).
 
 [![opera - Compatible](https://img.shields.io/badge/opera-Compatible-success?style=for-the-badge&logo=opera&logoColor=red)](https://www.opera.com/)
 
-[![safari - Not Compatible](https://img.shields.io/badge/safari-Not_Compatible-critical?style=for-the-badge&logo=safari&logoColor=blue)](https://www.apple.com/safari/)
+[![safari - Incompatible](https://img.shields.io/badge/safari-Incompatible-critical?style=for-the-badge&logo=safari&logoColor=blue)](https://www.apple.com/safari/)
 
 
 
