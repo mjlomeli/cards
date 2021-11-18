@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  </head>
-  <body>
-    
-  </body>
-</html>
-
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
-   version="1.1"
-   id="svg5"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-project UnderlineNav-octicon d-none d-sm-inline">
-    <path fill-rule="evenodd" d="M1.75 0A1.75 1.75 0 000 1.75v12.5C0 15.216.784 16 1.75 16h12.5A1.75 1.75 0 0016 14.25V1.75A1.75 1.75 0 0014.25 0H1.75zM1.5 1.75a.25.25 0 01.25-.25h12.5a.25.25 0 01.25.25v12.5a.25.25 0 01-.25.25H1.75a.25.25 0 01-.25-.25V1.75zM11.75 3a.75.75 0 00-.75.75v7.5a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75zm-8.25.75a.75.75 0 011.5 0v5.5a.75.75 0 01-1.5 0v-5.5zM8 3a.75.75 0 00-.75.75v3.5a.75.75 0 001.5 0v-3.5A.75.75 0 008 3z"></path>
+<svg width="16mm" height="16mm" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <svg height="16" viewBox="0 0 16 16" version="1.1" width="16">
+        <path d="M 1.75,0 A 1.75,1.75 0 0 0 0,1.75 v 12.5 C 0,15.216 0.784,16 1.75,16 h 12.5 A 1.75,1.75 0 0 0 16,14.25 V 1.75 A 1.75,1.75 0 0 0 14.25,0 Z M 1.5,1.75 A 0.25,0.25 0 0 1 1.75,1.5 h 12.5 a 0.25,0.25 0 0 1 0.25,0.25 v 12.5 A 0.25,0.25 0 0 1 14.25,14.5 H 1.75 A 0.25,0.25 0 0 1 1.5,14.25 Z M 11.75,3 A 0.75,0.75 0 0 0 11,3.75 v 7.5 a 0.75,0.75 0 0 0 1.5,0 V 3.75 A 0.75,0.75 0 0 0 11.75,3 Z M 3.5,3.75 a 0.75,0.75 0 0 1 1.5,0 v 5.5 a 0.75,0.75 0 0 1 -1.5,0 z M 8,3 A 0.75,0.75 0 0 0 7.25,3.75 v 3.5 a 0.75,0.75 0 0 0 1.5,0 V 3.75 A 0.75,0.75 0 0 0 8,3 Z" />
     </svg>
 </svg>
-
-
