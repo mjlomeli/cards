@@ -17,7 +17,7 @@ Released under [MIT](/LICENSE) by [@Mauricio](https://github.com/mjlomeli).
 
 [![opera - Compatible](https://img.shields.io/badge/opera-Compatible-success?style=for-the-badge&logo=opera&logoColor=red)](https://www.opera.com/)
 
-[![edge - Compatible](https://img.shields.io/badge/edge-Compatible-success?style=for-the-badge&logo=edge&logoColor=blue)](https://www.microsoft.com/)
+[![edge - Compatible](https://img.shields.io/badge/edge-Compatible-success?style=for-the-badge&logo=microsoft+edge&logoColor=blue)](https://www.microsoft.com/)
 
 [![safari - Incompatible](https://img.shields.io/badge/safari-Incompatible-critical?style=for-the-badge&logo=safari&logoColor=blue)](https://www.apple.com/safari/)
 
