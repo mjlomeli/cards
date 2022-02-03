@@ -156,6 +156,7 @@ function profile(){
     let linkImage = document.createElement('img');
     linkImage.src = "src/themes/profile/linkedin.png";
     linkImage.alt = "linkedin logo";
+    linkImage.target = "_blank";
     linkImage.className = "link-image";
     linkedin.appendChild(linkImage);
 
@@ -165,6 +166,7 @@ function profile(){
     let gitImage = document.createElement('img');
     gitImage.src = "src/themes/profile/github.svg";
     gitImage.alt = "github logo";
+    gitImage.target = "_blank";
     gitImage.className = "git-image";
     github.appendChild(gitImage);
 
