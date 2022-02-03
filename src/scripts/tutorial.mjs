@@ -152,7 +152,7 @@ function quotes() {
 
 function profile(){
     let linkedin = document.createElement('a');
-    linkedin.href = "https://www.linkedin.com/in/mauricio-lomeli-759796172";
+    linkedin.href = "https://www.linkedin.com/in/mauricio-l-759796172/";
     let linkImage = document.createElement('img');
     linkImage.src = "src/themes/profile/linkedin.png";
     linkImage.alt = "linkedin logo";
